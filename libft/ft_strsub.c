@@ -15,12 +15,10 @@
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	int		c;
 	char	*str;
 
 	if (s)
 	{
-		c = ft_strlen(s);
 		if (!(str = ft_strnew(len)))
 			return (NULL);
 		while (len--)
