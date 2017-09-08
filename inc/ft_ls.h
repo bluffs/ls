@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/06 15:32:01 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/08 12:00:28 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@
 #include <stdlib.h>
 #include "../libft/libft.h"
 
+/*
+** binary tree structure
+*/
+
 typedef struct		s_elem
 {
-	struct t_dirent	*dirent;
-	struct s_elem	*beg;
+	struct dirent	*dp;
+	struct s_elem	*left;
+	struct s_elem	*right;
 }					t_elem;
 
 typedef struct		s_flag
@@ -32,5 +37,14 @@ typedef struct		s_flag
 
 int					ft_set_flag(t_flag *flag, int argc, char **argv);
 void				ft_usage(char c);
+void				ft_error(int n);
+
+/*
+**binary tree functions
+*/
+
+t_elem				*ft_register_tree(t_elem *begin, t_elem *n);
+void				ft_read_tree_asc(t_elem *node);
+t_elem				*ft_create_node(struct dirent *dp);
 
 #endif
