@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/09 15:21:59 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/09 16:24:47 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int		main(int argc, char **argv)
 	//ft_putstr("nb = ");
 	stat(argv[i + 1], &buf);
 	ft_putnbr(buf.st_mode);
-
 	while (++i < argc)
 	{
 		if ((dirp = opendir(argv[i])))
