@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/08 12:00:28 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/09 15:24:30 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 # define __FT_LS_H
 
+//# define 33188 file
+//# define 16877 directory
 #include <dirent.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include "../libft/libft.h"
 
 /*
@@ -37,7 +40,7 @@ typedef struct		s_flag
 
 int					ft_set_flag(t_flag *flag, int argc, char **argv);
 void				ft_usage(char c);
-void				ft_error(int n);
+void				ft_error(int n, char *str);
 
 /*
 **binary tree functions

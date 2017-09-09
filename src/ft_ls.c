@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/08 14:43:03 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/09 15:21:59 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,17 @@ int		main(int argc, char **argv)
 	int				i;
 	t_elem			*begin;
 	t_elem			*node;
+	struct stat		buf;
 
 	i = ft_set_flag(flag, argc, argv);
+	/*ft_putstr("i = ");
+	ft_putnbr(i + 1);
+	ft_putstr("\nOpening ");
+	ft_putendl(argv[i + 1]);*/
+	//ft_putstr("nb = ");
+	stat(argv[i + 1], &buf);
+	ft_putnbr(buf.st_mode);
+
 	while (++i < argc)
 	{
 		if ((dirp = opendir(argv[i])))
@@ -41,9 +50,9 @@ int		main(int argc, char **argv)
 		}
 		else
 		{
-			ft_putendl_fd("Error on open", 2);
+			ft_error(2, argv[i]);
 		}
 	}
-	ft_read_tree_asc(begin);
+	//ft_read_tree_asc(begin);
 	return (0);
 }

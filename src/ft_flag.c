@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:19:10 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/06 15:48:59 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/09 10:29:15 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_register_flag(t_flag *flag, char c)
 {
-;	
+
 }
 
 void	ft_check_flag(char *str, t_flag *flag)
@@ -51,6 +51,8 @@ int		ft_set_flag(t_flag *flag, int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
+		if (!ft_strcmp(argv[i], "--"))
+			return (i);
 		if (argv[i][0] == '-' && argv[i][1])
 			ft_check_flag(argv[i], flag);
 		else
