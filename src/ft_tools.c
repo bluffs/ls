@@ -6,11 +6,11 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/09 10:46:20 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/11 13:38:30 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "ft_ls.h"
+# include "../inc/ft_ls.h"
 
 void	ft_error(int n, char *str)
 {
@@ -24,6 +24,17 @@ void	ft_error(int n, char *str)
 		ft_putstr_fd("ls: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putendl_fd(": No such file or directory", 2);
+	}
+	if (n == 3)
+	{
+		ft_putendl_fd("ls: fts_open: No such file or directory", 2);
+		exit(1);
+	}
+	if (n == 4)
+	{
+		ft_putstr_fd("ls: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": Permission denied", 2);
 	}
 }
 

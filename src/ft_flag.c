@@ -6,11 +6,11 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:19:10 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/09 10:29:15 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/11 12:07:12 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../inc/ft_ls.h"
 
 void	ft_register_flag(t_flag *flag, char c)
 {

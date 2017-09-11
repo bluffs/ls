@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/09 15:24:30 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/11 11:06:07 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 # define __FT_LS_H
 
-//# define 33188 file
-//# define 16877 directory
+# define FILE 33188
+# define DIRE 16877
 #include <dirent.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -27,9 +27,12 @@
 
 typedef struct		s_elem
 {
+	char			*name;
 	struct dirent	*dp;
 	struct s_elem	*left;
 	struct s_elem	*right;
+	struct s_elem	*file;
+	struct s_elem	*dir;
 }					t_elem;
 
 typedef struct		s_flag
@@ -47,7 +50,8 @@ void				ft_error(int n, char *str);
 */
 
 t_elem				*ft_register_tree(t_elem *begin, t_elem *n);
-void				ft_read_tree_asc(t_elem *node);
-t_elem				*ft_create_node(struct dirent *dp);
+void				ft_read_tree(t_elem *node, char n);
+void				ft_read_trash(t_elem *node);
+t_elem				*ft_create_node(struct dirent *dp, char *name);
 
 #endif
