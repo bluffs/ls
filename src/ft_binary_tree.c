@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/11 15:02:10 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/12 15:12:41 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,121 @@ t_elem	*ft_register_tree(t_elem *begin, t_elem *new)
 	return (begin);
 }
 
-void	ft_add_dir(t_elem *begin, char *file)
+void	ft_read_dir(t_elem *node, char n, char *src)
 {
+	char *path;
+
+	if (!(path = ft_memalloc(sizeof(char) * (ft_strlen(src) + ft_strlen(node->name)))))
+		exit(0);
+	ft_putstr(src);
+	ft_putstr(" + ");
+	ft_putendl(node->name);
+	path = ft_strjoin(src, node->name);
+	if (n == 1)
+	{
+		if (node)
+		{
+			if (node->left)
+				ft_read_dir(node->left, 1, src);
+			ft_putstr(node->name);
+			ft_putendl(":");
+			ft_open_dir(path);
+			if (node->right)
+				ft_read_dir(node->right, 1, src);
+		}
+	}
+	else
+	{
+		if (node)
+		{
+			if (node->left)
+				ft_read_dir(node->right, 2, src);
+			ft_putstr(node->name);
+			ft_putendl(":");
+			ft_open_dir(ft_strjoin(src, node->name));
+			if (node->right)
+				ft_read_dir(node->left, 2, src);
+		}
+	}
+}
+
+void	ft_register(t_elem **trash, t_elem **files, t_elem **dir, char *src)
+{
+	struct stat		buf;
+
+	if (src[0] == '.')
+		return ;
+	if (lstat(src, &buf) != -1)
+	{
+		if (S_ISREG(buf.st_mode))
+		{
+			//ft_putstr("adding ");
+			//ft_putstr(src);
+			//ft_putendl(" to files");
+			*files = ft_register_tree(*files, ft_create_node(NULL, src));
+		}
+		else if (S_ISDIR(buf.st_mode))
+		{
+			//ft_putstr("adding ");
+			//ft_putstr(src);
+			//ft_putendl(" to dir");
+			*dir = ft_register_tree(*dir, ft_create_node(NULL, src));
+		}
+	}
+	else
+	{
+		if (!(ft_strcmp(src, "")))
+			ft_error(3, NULL);
+		*trash = ft_register_tree(*trash, ft_create_node(NULL, src));
+	}
+}
+
+void	ft_open_dir(/*t_elem *trash, t_elem *files, t_elem *dir, */char *src)
+{
+	ft_putstr("opening dir : ");
+	ft_putendl(src);
 	DIR				*dirp;
 	struct dirent	*dp;
+	t_elem			*trash;
+	t_elem			*files;
+	t_elem			*dir;
 
-	if ((dirp = opendir(file)))
+	files = NULL;
+	trash = NULL;
+	dir = NULL;
+	if ((dirp = opendir(src)))
 	{
 		while ((dp = readdir(dirp)))
-			ft_register_tree(begin, ft_create_node(dp, file));
+			ft_register(&trash, &files, &dir, dp->d_name);
 		if (closedir(dirp) == -1)
 			ft_putendl_fd("Error on close", 2);
 	}
 	else
-	{
-		ft_register_tree(begin, ft_create_node(NULL, file));
-	}
+		ft_error(4, src);
+	ft_putendl("end dir");
+	ft_read_trash(trash);
+	ft_putendl("read files");
+	ft_read_tree(files, 1);
+	ft_putendl("read dir");
+	ft_putendl("");
+	ft_read_dir(dir, 1, src);
 }
+
+/*t_elem	*ft_open_dir(char *dir)*/
+/*{*/
+/*DIR				*dirp;*/
+/*struct dirent	*dp;*/
+/*t_elem			*begin;*/
+
+/*begin = NULL;*/
+/*if ((dirp = opendir(dir)))*/
+/*{*/
+/*while ((dp = readdir(dirp)))*/
+/*begin = ft_register_tree(begin, ft_create_node(dp, dir));*/
+/*if (closedir(dirp) == -1)*/
+/*ft_putendl_fd("Error on close", 2);*/
+/*}*/
+/*else*/
+/*ft_error(4, dir);*/
+/*return (begin);*/
+/*}*/
