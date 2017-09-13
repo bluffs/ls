@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/12 14:39:22 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/13 15:25:36 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,18 @@ typedef struct		s_elem
 
 typedef struct		s_flag
 {
-	char	recursive;
-	char	list;
+	char			recursive;
+	char			list;
 }					t_flag;
+
+typedef struct		s_all
+{
+	char			*name;
+	t_flag			*flag;
+	t_elem			*trash;
+	t_elem			*file;
+	t_elem			*dir;
+}					t_all;
 
 int					ft_set_flag(t_flag *flag, int argc, char **argv);
 void				ft_usage(char c);
@@ -53,6 +62,6 @@ void				ft_read_trash(t_elem *node);
 t_elem				*ft_create_node(struct dirent *dp, char *name);
 void				ft_open_dir(/*t_elem *trash, t_elem *files, t_elem *dir, */char *src);
 void				ft_read_dir(t_elem *begin, char n, char *src);
-void				ft_register(t_elem **trash, t_elem **files, t_elem **dir, char *src);
+void				ft_register(t_elem **trash, t_elem **files, t_elem **dir, char *src, char *path);
 
 #endif
