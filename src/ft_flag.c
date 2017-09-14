@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:19:10 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/11 12:07:12 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/14 10:53:53 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 
 void	ft_register_flag(t_flag *flag, char c)
 {
-
+	//ft_putstr("gonna register flag = ");
+	//ft_putchar(c);
+	//ft_putendl("");
+	if (c == 'r')
+		flag->r = 1;
+	if (c == 'R')
+		flag->recursive = 1;
 }
 
 void	ft_check_flag(char *str, t_flag *flag)
@@ -25,8 +31,6 @@ void	ft_check_flag(char *str, t_flag *flag)
 
 	list = "ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1";
 	i = 1;
-	if (*str != '-')
-		return ;
 	while (str[i])
 	{
 		j = 0;

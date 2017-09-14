@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/13 15:25:36 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/14 11:39:49 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,19 @@
 
 typedef struct		s_elem
 {
+	char			*src;
 	char			*name;
-	struct dirent	*dp;
+	//struct dirent	*dp;
 	struct s_elem	*left;
 	struct s_elem	*right;
-	struct s_elem	*file;
-	struct s_elem	*dir;
+	//struct s_elem	*file;
+	//struct s_elem	*dir;
 }					t_elem;
 
 typedef struct		s_flag
 {
 	char			recursive;
+	char			r;
 	char			list;
 }					t_flag;
 
@@ -48,6 +50,7 @@ typedef struct		s_all
 	t_elem			*dir;
 }					t_all;
 
+t_all				*ft_init_all(void);
 int					ft_set_flag(t_flag *flag, int argc, char **argv);
 void				ft_usage(char c);
 void				ft_error(int n, char *str);
@@ -57,11 +60,11 @@ void				ft_error(int n, char *str);
 */
 
 t_elem				*ft_register_tree(t_elem *begin, t_elem *n);
-void				ft_read_tree(t_elem *node, char n);
+void				ft_read_tree(t_elem *node, t_flag *flag);
 void				ft_read_trash(t_elem *node);
-t_elem				*ft_create_node(struct dirent *dp, char *name);
-void				ft_open_dir(/*t_elem *trash, t_elem *files, t_elem *dir, */char *src);
-void				ft_read_dir(t_elem *begin, char n, char *src);
-void				ft_register(t_elem **trash, t_elem **files, t_elem **dir, char *src, char *path);
+t_elem				*ft_create_node(char *src, char *name);
+void				ft_open_dir(t_elem *list, t_flag *flag);
+//void				ft_read_dir(t_elem	*list, t_flag *flag);
+void				ft_register(t_all **all, char *name/*, char *path*/);
 
 #endif
