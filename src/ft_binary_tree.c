@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/14 11:10:51 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/14 13:36:50 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_read_tree(t_elem *node, t_flag *flag)
 		{
 			if (node->left)
 				ft_read_tree(node->left, flag);
-			ft_putendl(node->name);
+			if (node->name[0] != '.')
+				ft_putendl(node->name);
 			if (node->right)
 				ft_read_tree(node->right, flag);
 		}
@@ -47,7 +48,8 @@ void	ft_read_tree(t_elem *node, t_flag *flag)
 		{
 			if (node->right)
 				ft_read_tree(node->right, flag);
-			ft_putendl(node->name);
+			if (node->name[0] != '.')
+				ft_putendl(node->name);
 			if (node->left)
 				ft_read_tree(node->left, flag);
 		}

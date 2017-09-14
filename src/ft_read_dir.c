@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/14 12:00:47 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/14 13:48:34 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,17 @@ char	*ft_dir_name(t_elem *dir)
 {
 	char	*name;
 
+	/*ft_putstr("dir->src = ");
+	ft_putendl(dir->src);
+	ft_putnbr(ft_strlen(dir->src));
+	ft_putstr("dir->name = ");
+	ft_putendl(dir->name);*/
 	if (!(name = ft_memalloc(sizeof(char) *
 					(ft_strlen(dir->src) + ft_strlen(dir->name) + 1))))
 		ft_error(1, NULL);
-	name = ft_strcat(dir->src, "/");
+	name = ft_strcat(name, dir->src);
 	name = ft_strcat(name, dir->name);
+	name = ft_strcat(name, "/");
 	return (name);
 }
 
@@ -62,11 +68,11 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	dir_name = ft_dir_name(dir);
 	if ((dirp = opendir(dir_name)))
 	{
-		ft_putendl("dir is open");
 		while ((dp = readdir(dirp)))
 		{
 			elem = ft_create_node(dir_name, dp->d_name);
-			ft_register_tree(begin, elem);
+			begin = ft_register_tree(begin, elem);
 		}
 	}
+	ft_read_tree(begin, flag);
 }

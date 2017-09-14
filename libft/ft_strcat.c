@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 17:37:29 by jyakdi            #+#    #+#             */
-/*   Updated: 2016/11/24 12:02:02 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/14 13:23:35 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ char	*ft_strcat(char *dest, const char *src)
 
 	j = 0;
 	i = 0;
-	while (dest[i])
+	while (dest && dest[i])
 		i++;
-	while (src[j])
+	while (src && src[j])
 	{
 		dest[i] = src[j];
 		i++;
