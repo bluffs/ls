@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/15 11:33:32 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/15 14:50:50 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct		s_flag
 	char			recursive;
 	char			r;
 	char			list;
+	char			a;
 }					t_flag;
 
 typedef struct		s_all
