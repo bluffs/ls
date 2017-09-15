@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/14 16:01:27 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/15 11:16:50 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ void	ft_read_dir_arg(t_elem	*list, t_flag *flag)
 	if (flag->r == 0)
 	{
 		ft_read_dir_arg(list->left, flag);
-		ft_putendl("");
-		ft_putstr(list->src);
-		ft_putstr(list->name);
-		ft_putendl(":");
+		//ft_putendl("");
+		//ft_putstr(list->src);
+		//ft_putstr(list->name);
+		//ft_putendl(":");
 		ft_open_dir(list, flag);
 		ft_read_dir_arg(list->right, flag);
 	}
 	else
 	{
 		ft_read_dir_arg(list->right, flag);
-		ft_putendl("");
-		ft_putstr(list->src);
-		ft_putstr(list->name);
-		ft_putendl(":");
+		//ft_putendl("");
+		//ft_putstr(list->src);
+		//ft_putstr(list->name);
+		//ft_putendl(":");
 		ft_open_dir(list, flag);
 		ft_read_dir_arg(list->left, flag);
 	}

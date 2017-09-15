@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/14 09:33:18 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/15 11:44:34 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_error(int n, char *str)
 	{
 		ft_putstr_fd("ls: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": Permission denied", 2);
+		ft_putendl_fd(": Permission denied", 2);
 	}
 }
 
@@ -45,3 +45,21 @@ void	ft_usage(char c)
 	ft_putendl_fd("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1]", 2);
 	exit(1);
 }
+
+char	*ft_strlastchr(char *src, char c)
+{
+	int		i;
+
+	i = 0;
+	while (src[i])
+		i++;
+	i--;
+	while (i >= 0)
+	{
+		if (c == src[i])
+			return (&(src[i + 1]));
+		i--;
+	}
+	return (src);
+}
+

@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/14 13:48:34 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/15 11:44:02 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 	}
 }*/
 
-char	*ft_dir_name(t_elem *dir)
+char	*ft_dir_name(t_elem *dir, char n)
 {
 	char	*name;
 
@@ -44,12 +44,33 @@ char	*ft_dir_name(t_elem *dir)
 	ft_putstr("dir->name = ");
 	ft_putendl(dir->name);*/
 	if (!(name = ft_memalloc(sizeof(char) *
-					(ft_strlen(dir->src) + ft_strlen(dir->name) + 1))))
+					(ft_strlen(dir->src) + ft_strlen(dir->name) + 1 + n))))
 		ft_error(1, NULL);
 	name = ft_strcat(name, dir->src);
 	name = ft_strcat(name, dir->name);
-	name = ft_strcat(name, "/");
+	if (n)
+		name = ft_strcat(name, "/");
 	return (name);
+}
+
+void	ft_recursive_dir(t_elem *begin, t_flag *flag)
+{
+	struct stat		buf;
+	char			*src;
+
+	src = ft_dir_name(begin, 1);
+	if (begin->left)
+		ft_recursive_dir(begin->left, flag);
+	if (lstat(src, &buf) != 1)
+	{
+		if (S_ISDIR(buf.st_mode))
+		{
+			if (ft_strcmp(begin->name, ".") && ft_strcmp(begin->name, ".."))
+				ft_open_dir(begin, flag);
+		}
+	}
+	if (begin->right)
+		ft_recursive_dir(begin->right, flag);
 }
 
 /*
@@ -65,14 +86,21 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	t_elem			*elem;
 
 	begin = NULL;
-	dir_name = ft_dir_name(dir);
+	dir_name = ft_dir_name(dir, 0);
+	ft_putendl("");
+	ft_putstr(dir_name);
+	ft_putendl(":");
 	if ((dirp = opendir(dir_name)))
 	{
 		while ((dp = readdir(dirp)))
 		{
-			elem = ft_create_node(dir_name, dp->d_name);
+			elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name);
 			begin = ft_register_tree(begin, elem);
 		}
 	}
+	else
+		ft_error(4, ft_strlastchr(dir->name, '/'));
 	ft_read_tree(begin, flag);
+	if (begin && flag->recursive)
+		ft_recursive_dir(begin, flag);
 }

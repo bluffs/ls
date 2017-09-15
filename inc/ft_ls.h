@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/14 11:39:49 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/15 11:33:32 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 # define __FT_LS_H
 
+#include <unistd.h>
 #include <dirent.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -54,6 +55,7 @@ t_all				*ft_init_all(void);
 int					ft_set_flag(t_flag *flag, int argc, char **argv);
 void				ft_usage(char c);
 void				ft_error(int n, char *str);
+char				*ft_strlastchr(char *src, char c);
 
 /*
 **binary tree functions
