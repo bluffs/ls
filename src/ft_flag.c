@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:19:10 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/15 14:51:16 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/15 15:51:33 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	ft_register_flag(t_flag *flag, char c)
 {
-	//ft_putstr("gonna register flag = ");
-	//ft_putchar(c);
-	//ft_putendl("");
 	if (c == 'r')
 		flag->r = 1;
 	if (c == 'R')
