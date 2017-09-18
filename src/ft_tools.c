@@ -6,11 +6,31 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/15 11:44:34 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/18 16:38:55 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/ft_ls.h"
+
+void	ft_print_name(t_elem *node)
+{
+	char			*str;
+	struct stat		buf;
+
+	//ft_putendl("starting print_name");
+	str = ft_dir_name(node, 0);
+	//ft_putstr("str = ");
+	//ft_putendl(str);
+	if (lstat(str, &buf) != -1)
+	{
+		if (S_ISDIR(buf.st_mode))
+			ft_putstr("\033[1;36m");
+		else if (S_ISLNK(buf.st_mode))
+			ft_putstr("\033[0;35m");
+		ft_putendl(node->name);
+		ft_putstr("\033[0;m");
+	}
+}
 
 void	ft_error(int n, char *str)
 {

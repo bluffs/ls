@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/15 14:50:29 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/18 16:30:58 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	ft_read_tree(t_elem *node, t_flag *flag)
 		{
 			if (node->left)
 				ft_read_tree(node->left, flag);
+			//ft_putstr("name = ");
+			//ft_putendl(node->name);
 			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
-				ft_putendl(node->name);
+				ft_print_name(node);//ft_putendl(node->name);
 			if (node->right)
 				ft_read_tree(node->right, flag);
 		}
@@ -49,7 +51,7 @@ void	ft_read_tree(t_elem *node, t_flag *flag)
 			if (node->right)
 				ft_read_tree(node->right, flag);
 			if (node->name[0] != '.')
-				ft_putendl(node->name);
+				ft_print_name(node);//ft_putendl(node->name);
 			if (node->left)
 				ft_read_tree(node->left, flag);
 		}
@@ -98,60 +100,11 @@ t_elem	*ft_register_tree(t_elem *begin, t_elem *new)
 	return (begin);
 }
 
-/*void	ft_read_dir(t_elem *node, char n, char *src)*/
-/*{*/
-	/*char *path;*/
-
-	/*ft_putendl("reading dir");*/
-	/*if (node)*/
-	/*{*/
-		/*if (!(path = ft_memalloc(sizeof(char) * (ft_strlen(src) + ft_strlen(node->name) + 1))))*/
-			/*exit(0);*/
-		/*path = ft_strjoin(src, "/");*/
-		/*path = ft_strjoin(path, node->name);*/
-	/*ft_putendl("malloc'd");*/
-	/*ft_putstr(src);*/
-	/*ft_putstr(" + ");*/
-	/*ft_putendl(node->name);*/
-	/*}*/
-	/*if (n == 1)*/
-	/*{*/
-		/*if (node)*/
-		/*{*/
-			/*if (node->left)*/
-				/*ft_read_dir(node->left, 1, src);*/
-			/*ft_putstr(node->name);*/
-			/*ft_putendl(":");*/
-			/*ft_open_dir(node->name);*/
-			/*if (node->right)*/
-				/*ft_read_dir(node->right, 1, src);*/
-		/*}*/
-	/*}*/
-	/*else*/
-	/*{*/
-		/*if (node)*/
-		/*{*/
-			/*if (node->left)*/
-				/*ft_read_dir(node->right, 2, src);*/
-			/*ft_putstr(node->name);*/
-			/*ft_putendl(":");*/
-			/*ft_open_dir(ft_strjoin(src, node->name));*/
-			/*if (node->right)*/
-				/*ft_read_dir(node->left, 2, src);*/
-		/*}*/
-	/*}*/
-	/*//ft_putendl("end read_dir");*/
-/*}*/
-
-/*void	ft_read_dir()
-{
-
-}*/
-
 void	ft_register(t_all **all, char *name/*, char *path*/)
 {
 	struct stat		buf;
-	char			*src;
+	//struct stat		buf2;
+	char			src[PATH_MAX];
 
 	/*if (!(src = ft_memalloc(sizeof(char) * (ft_strlen(name) + ft_strlen(path) + 1))))
 		exit(1);
@@ -163,8 +116,36 @@ void	ft_register(t_all **all, char *name/*, char *path*/)
 	//	ft_putendl("file is NULL");
 	/*if ((*all)->flag->a = 0 && name[0] == '.')
 		return ;*/
-	if (lstat(name, &buf) != -1)
+	if (stat(name, &buf) != -1)
 	{
+		/*ft_putstr("buf = ");
+		ft_putnbr(buf.st_mode);
+		ft_putendl("");*/
+		//src = ft_memalloc(sizeof(char) * buf.st_size + 1);
+		/*if (S_ISLNK(buf.st_mode))
+		{
+			//src = ft_link(name, &buf);
+			ft_putstr("src is a symbolic link = ");
+			ft_putendl(name);
+			if ((readlink(name, src, PATH_MAX) != -1))
+			{
+				ft_putstr("link = ");
+				ft_putendl(src);
+			}
+			//ft_putendl(strerror(errno));
+			ft_putstr("src = ");
+			ft_putendl(src);
+		}*/
+		/*if (!(stat(src, &buf)))
+			ft_putendl("2nd lsts fail");
+		ft_putstr("buf2 after lstat = ");
+		 || flag->aft_putnbr(buf.st_mode);
+		ft_putendl("");*/
+		/*if (S_ISLNK(buf.st_mode))
+		{
+			ft_putstr("src is a symbolic link = ");
+			ft_putendl(src);
+		}*/
 		if (S_ISREG(buf.st_mode))
 		{
 			//ft_putstr("adding ");

@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/15 14:50:50 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/18 16:04:02 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <limits.h>
+#include <errno.h>
 #include "../libft/libft.h"
 
 /*
@@ -57,6 +59,8 @@ int					ft_set_flag(t_flag *flag, int argc, char **argv);
 void				ft_usage(char c);
 void				ft_error(int n, char *str);
 char				*ft_strlastchr(char *src, char c);
+char				*ft_dir_name(t_elem *dir, char n);
+void				ft_print_name(t_elem *node);
 
 /*
 **binary tree functions
