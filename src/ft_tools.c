@@ -6,13 +6,20 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/18 16:38:55 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/19 16:57:55 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/ft_ls.h"
 
-void	ft_print_name(t_elem *node)
+void	ft_print_line(t_elem *node)
+{
+	ft_print_rights(node);
+	//ft_print_user(node);
+	//ft_print_date(node);
+	//ft_print_file(node);
+}
+void	ft_print_name(t_elem *node, t_flag *flag)
 {
 	char			*str;
 	struct stat		buf;
@@ -27,7 +34,10 @@ void	ft_print_name(t_elem *node)
 			ft_putstr("\033[1;36m");
 		else if (S_ISLNK(buf.st_mode))
 			ft_putstr("\033[0;35m");
-		ft_putendl(node->name);
+		if (flag->l)
+			ft_print_line(node);
+		else
+			ft_putendl(node->name);
 		ft_putstr("\033[0;m");
 	}
 }
@@ -82,4 +92,3 @@ char	*ft_strlastchr(char *src, char c)
 	}
 	return (src);
 }
-

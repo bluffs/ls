@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/18 16:24:52 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/19 15:41:30 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ void	ft_recursive_dir(t_elem *begin, t_flag *flag)
 {
 	struct stat		buf;
 	char			*src;
+	int				(*fct)(const char *, struct stat *);
 
+	fct = (flag->l) ? lstat : stat;
 	src = ft_dir_name(begin, 1);
 	if (begin->left)
 		ft_recursive_dir(begin->left, flag);
-	if (stat(src, &buf) != 1)
+	if (fct(src, &buf) != 1)
 	{
 		//ft_putstr("src ");
 		//ft_putendl(src);
@@ -87,7 +89,16 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	char			*dir_name;
 	t_elem			*begin;
 	t_elem			*elem;
-
+	struct stat		buf;
+	int				(*fct)(const char *, struct stat *);
+	
+	fct = (flag->l) ? lstat : stat;
+	fct(dp->d_name, &buf);
+	if (flag->l && !S_ISDIR(buf.st_mode))
+	{
+		ft_print_name(dir, flag);
+		return ;
+	}
 	begin = NULL;
 	dir_name = ft_dir_name(dir, 0);
 	ft_putendl("");
@@ -97,8 +108,8 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	{
 		while ((dp = readdir(dirp)))
 		{
-			elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name);
-			begin = ft_register_tree(begin, elem);
+			elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name, buf);
+			begin = ft_register_tree(begin, elem, flag);
 		}
 		if (closedir(dirp) == -1)
 		{
