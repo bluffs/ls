@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 16:53:03 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/19 16:57:13 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/20 09:04:54 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_other_rights(t_elem *node)
 		ft_putchar('x');
 	else
 		ft_putchar('-');
+	ft_putstr("  ");
 }
 
 void	ft_group_rights(t_elem *node)

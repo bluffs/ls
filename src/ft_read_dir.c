@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/19 15:41:30 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/20 11:42:31 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	int				(*fct)(const char *, struct stat *);
 	
 	fct = (flag->l) ? lstat : stat;
-	fct(dp->d_name, &buf);
-	if (flag->l && !S_ISDIR(buf.st_mode))
+	fct(ft_dir_name(dir, 0), &buf);
+	//ft_putstr("name = ");
+	//ft_putendl(ft_dir_name(dir, 0));
+	if (flag->l && !(S_ISDIR(buf.st_mode)))
 	{
 		ft_print_name(dir, flag);
 		return ;

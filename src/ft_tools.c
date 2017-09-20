@@ -6,19 +6,81 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/19 16:57:55 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/20 11:14:19 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/ft_ls.h"
 
+void	ft_print_file(t_elem *node)
+{
+	char			str[PATH_MAX];
+	int				nb;
+	struct stat		buf;
+
+	lstat(ft_dir_name(node, 0), &buf);
+	//ft_putstr("name  = ");
+	//ft_putendl(ft_dir_name(node, 0));
+	if (S_ISDIR(buf.st_mode))
+	{
+		//ft_putstr("color blue");
+		ft_putstr("\033[1;36m");
+	}
+	else if (S_ISLNK(buf.st_mode))
+		ft_putstr("\033[0;35m");
+	ft_putstr(node->name);
+	ft_putstr("\033[0;m");
+	if (S_ISLNK(buf.st_mode))
+	{
+		nb = readlink(ft_dir_name(node, 0), str, PATH_MAX);
+		ft_putstr(" -> ");
+		write(1, str, nb);
+	}
+	ft_putendl("");
+}
+
+void	ft_putnstr(char *str, int start)
+{
+	int		end;
+
+	end = ft_strlen(str) - 9;
+	while (start < end)
+	{
+		ft_putchar(str[start]);
+		start++;
+	}
+}
+
+void	ft_print_user(t_elem *node)
+{
+	struct passwd	*user;
+	struct group	*group;
+	char			*date;
+	struct stat		buf;
+
+	lstat(ft_dir_name(node, 0), &buf);
+	user = getpwuid(buf.st_uid);
+	ft_putstr(user->pw_name);
+	ft_putstr("  ");
+	group = getgrgid(buf.st_gid);
+	ft_putstr(group->gr_name);
+	ft_putstr("  ");
+	ft_putnbr(buf.st_size);
+	ft_putchar(' ');
+	date = ctime(&buf.st_mtime);
+	ft_putnstr(date, 4);
+	ft_putchar(' ');
+}
+
 void	ft_print_line(t_elem *node)
 {
 	ft_print_rights(node);
-	//ft_print_user(node);
-	//ft_print_date(node);
-	//ft_print_file(node);
+	ft_putnbr(node->stat.st_nlink);
+	ft_putstr(" ");
+	ft_print_user(node);
+	ft_print_file(node);
 }
+
 void	ft_print_name(t_elem *node, t_flag *flag)
 {
 	char			*str;
@@ -28,16 +90,17 @@ void	ft_print_name(t_elem *node, t_flag *flag)
 	str = ft_dir_name(node, 0);
 	//ft_putstr("str = ");
 	//ft_putendl(str);
-	if (lstat(str, &buf) != -1)
+	if (flag->l)
+		ft_print_line(node);
+	else if (lstat(str, &buf) != -1)
 	{
 		if (S_ISDIR(buf.st_mode))
+		{
 			ft_putstr("\033[1;36m");
+		}
 		else if (S_ISLNK(buf.st_mode))
 			ft_putstr("\033[0;35m");
-		if (flag->l)
-			ft_print_line(node);
-		else
-			ft_putendl(node->name);
+		ft_putendl(node->name);
 		ft_putstr("\033[0;m");
 	}
 }
