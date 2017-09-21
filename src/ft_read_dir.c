@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/21 17:30:35 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/21 17:42:28 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,11 @@ void	ft_recursive_dir(t_elem *begin, t_flag *flag)
 ** we have a dir to open and print all elements of it
 */
 
-int		ft_count_blocks(t_elem *elem, char l)
+int		ft_count_blocks(t_elem *elem)
 {
-	int				(*fct)(const char *, struct stat *);
 	struct stat		buf;
 
-	fct = (l) ? lstat : stat;
-	fct(ft_dir_name(elem, 0), &buf);
+	lstat(ft_dir_name(elem, 0), &buf);
 	return (buf.st_blocks);
 }
 
@@ -122,11 +120,15 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	{
 		while ((dp = readdir(dirp)))
 		{
-			elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name, buf);
-			total += ft_count_blocks(elem, flag->l);
-			begin = ft_register_tree(begin, elem, flag);
+			if ((flag->a == 0 && dp->d_name[0] != '.') || flag->a)
+			{
+				elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name, buf);
+				if (flag->l)
+					total += ft_count_blocks(elem);
+				begin = ft_register_tree(begin, elem, flag);
+			}
 		}
-		if (elem)
+		if (elem && flag->l)
 		{
 			ft_putstr("total ");
 			ft_putnbr(total);
