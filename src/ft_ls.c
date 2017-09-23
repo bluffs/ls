@@ -72,6 +72,8 @@ int		main(int argc, char **argv)
 
 	all = ft_init_all();
 	i = ft_set_flag(all->flag, argc, argv);
+	if (i + 1 >= argc)
+		ft_register(&all, ".", all->flag);
 	while (++i < argc)
 		ft_register(&all, argv[i], all->flag);
 	ft_read_trash(all->trash);
