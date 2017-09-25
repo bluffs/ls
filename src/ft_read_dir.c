@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/21 17:42:28 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/25 15:20:22 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	struct stat		buf;
 	int				(*fct)(const char *, struct stat *);
 	int				total;
+	t_padding		*pad;
 
 	total = 0;
 	fct = (flag->l) ? lstat : stat;
@@ -111,6 +112,8 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 		ft_print_name(dir, flag);
 		return ;
 	}
+	if (!(pad = ft_memalloc(sizeof(t_padding))))
+		ft_error(1, NULL);
 	begin = NULL;
 	dir_name = ft_dir_name(dir, 0);
 	ft_putendl("");
@@ -124,7 +127,10 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 			{
 				elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name, buf);
 				if (flag->l)
+				{
+					ft_get_padding(elem, pad);
 					total += ft_count_blocks(elem);
+				}
 				begin = ft_register_tree(begin, elem, flag);
 			}
 		}

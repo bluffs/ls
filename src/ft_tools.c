@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/20 11:14:19 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/25 15:15:36 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,11 @@ void	ft_print_user(t_elem *node)
 
 void	ft_print_line(t_elem *node)
 {
+	struct stat		buf;
+
 	ft_print_rights(node);
-	ft_putnbr(node->stat.st_nlink);
+	lstat(ft_dir_name(node, 0), &buf);
+	ft_putnbr(buf.st_nlink);
 	ft_putstr(" ");
 	ft_print_user(node);
 	ft_print_file(node);

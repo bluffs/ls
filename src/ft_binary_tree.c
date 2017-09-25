@@ -6,15 +6,18 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/19 15:39:35 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/25 16:53:43 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-t_elem	*ft_create_node(char *src, char *name, struct stat stat)
+t_elem	*ft_create_node(char *src, char *name, struct stat stat/*, t_flag *flag*/)
 {
 	t_elem	*node;
+	/*int				(*fct)(const char *, struct stat *);
+
+	fct = (flag->l) ? lstat : stat;*/
 
 	//ft_putendl("create node");
 	if (!(node = ft_memalloc(sizeof(t_elem))))
@@ -51,7 +54,8 @@ void	ft_read_tree(t_elem *node, t_flag *flag)
 		{
 			if (node->right)
 				ft_read_tree(node->right, flag);
-			if (node->name[0] != '.')
+			//if (node->name[0] != '.')
+			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
 				ft_print_name(node, flag);//ft_putendl(node->name);
 			if (node->left)
 				ft_read_tree(node->left, flag);

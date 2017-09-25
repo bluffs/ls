@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/20 09:37:41 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/25 15:20:17 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@
 /*
 ** binary tree structure
 */
+
+typedef struct		s_padding
+{
+	int				total;
+	int				rights_len;
+	int				link_len;
+	int				user_len;
+	int				grp_len;
+	int				blocks_len;
+}					t_padding;
 
 typedef struct		s_elem
 {
@@ -68,6 +78,7 @@ char				*ft_strlastchr(char *src, char c);
 char				*ft_dir_name(t_elem *dir, char n);
 void				ft_print_name(t_elem *node, t_flag *flag);
 void				ft_print_rights(t_elem *node);
+void				ft_get_padding(t_elem *elem, t_padding *pad);
 
 /*
 **binary tree functions
