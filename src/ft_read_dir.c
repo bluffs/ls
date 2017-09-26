@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/25 15:20:22 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/26 14:41:33 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	//ft_putendl(ft_dir_name(dir, 0));
 	if (flag->l && !(S_ISDIR(buf.st_mode)))
 	{
-		ft_print_name(dir, flag);
+		ft_print_name(dir, flag, pad);
 		return ;
 	}
 	if (!(pad = ft_memalloc(sizeof(t_padding))))
@@ -148,7 +148,7 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	}
 	else
 		ft_error(4, ft_strlastchr(dir->name, '/'));
-	ft_read_tree(begin, flag);
+	ft_read_tree(begin, flag, pad);
 	if (begin && flag->recursive)
 		ft_recursive_dir(begin, flag);
 }

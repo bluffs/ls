@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/19 15:31:40 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/26 14:40:50 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		main(int argc, char **argv)
 	while (++i < argc)
 		ft_register(&all, argv[i], all->flag);
 	ft_read_trash(all->trash);
-	ft_read_tree(all->file, all->flag);
+	ft_read_tree(all->file, all->flag, NULL);
 	ft_read_dir_arg(all->dir, all->flag);
 	return (0);
 }

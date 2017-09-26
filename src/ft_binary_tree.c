@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/25 16:53:43 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/26 14:33:26 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,20 @@ t_elem	*ft_create_node(char *src, char *name, struct stat stat/*, t_flag *flag*/
 	return (node);
 }
 
-void	ft_read_tree(t_elem *node, t_flag *flag)
+void	ft_read_tree(t_elem *node, t_flag *flag, t_padding *pad)
 {
 	if (flag->r == 0)
 	{
 		if (node)
 		{
 			if (node->left)
-				ft_read_tree(node->left, flag);
+				ft_read_tree(node->left, flag, pad);
 			//ft_putstr("name = ");
 			//ft_putendl(node->name);
 			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
-				ft_print_name(node, flag);//ft_putendl(node->name);
+				ft_print_name(node, flag, pad);//ft_putendl(node->name);
 			if (node->right)
-				ft_read_tree(node->right, flag);
+				ft_read_tree(node->right, flag, pad);
 		}
 	}
 	else
@@ -53,12 +53,12 @@ void	ft_read_tree(t_elem *node, t_flag *flag)
 		if (node)
 		{
 			if (node->right)
-				ft_read_tree(node->right, flag);
+				ft_read_tree(node->right, flag, pad);
 			//if (node->name[0] != '.')
 			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
-				ft_print_name(node, flag);//ft_putendl(node->name);
+				ft_print_name(node, flag, pad);//ft_putendl(node->name);
 			if (node->left)
-				ft_read_tree(node->left, flag);
+				ft_read_tree(node->left, flag, pad);
 		}
 	}
 }

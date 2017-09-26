@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/25 15:20:17 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/26 14:34:14 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void				ft_usage(char c);
 void				ft_error(int n, char *str);
 char				*ft_strlastchr(char *src, char c);
 char				*ft_dir_name(t_elem *dir, char n);
-void				ft_print_name(t_elem *node, t_flag *flag);
+void				ft_print_name(t_elem *node, t_flag *flag, t_padding *pad);
 void				ft_print_rights(t_elem *node);
 void				ft_get_padding(t_elem *elem, t_padding *pad);
 
@@ -85,7 +85,7 @@ void				ft_get_padding(t_elem *elem, t_padding *pad);
 */
 
 t_elem				*ft_register_tree(t_elem *begin, t_elem *n, t_flag *flag);
-void				ft_read_tree(t_elem *node, t_flag *flag);
+void				ft_read_tree(t_elem *node, t_flag *flag, t_padding *pad);
 void				ft_read_trash(t_elem *node);
 t_elem				*ft_create_node(char *src, char *name, struct stat stat);
 void				ft_open_dir(t_elem *list, t_flag *flag);

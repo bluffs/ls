@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/25 15:15:36 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/26 14:46:30 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,13 @@ void	ft_putnstr(char *str, int start)
 	}
 }
 
-void	ft_print_user(t_elem *node)
+void	ft_print_user(t_elem *node, t_padding *pad)
 {
 	struct passwd	*user;
 	struct group	*group;
 	char			*date;
 	struct stat		buf;
+	int				blocks_len;
 
 	lstat(ft_dir_name(node, 0), &buf);
 	user = getpwuid(buf.st_uid);
@@ -65,6 +66,9 @@ void	ft_print_user(t_elem *node)
 	group = getgrgid(buf.st_gid);
 	ft_putstr(group->gr_name);
 	ft_putstr("  ");
+	blocks_len = ft_strlen(ft_itoa(buf.st_blocks));
+	while (blocks_len++ < pad->blocks_len)
+		ft_putchar(' ');
 	ft_putnbr(buf.st_size);
 	ft_putchar(' ');
 	date = ctime(&buf.st_mtime);
@@ -72,19 +76,23 @@ void	ft_print_user(t_elem *node)
 	ft_putchar(' ');
 }
 
-void	ft_print_line(t_elem *node)
+void	ft_print_line(t_elem *node, t_padding *pad)
 {
 	struct stat		buf;
+	int				link_len;
 
 	ft_print_rights(node);
 	lstat(ft_dir_name(node, 0), &buf);
+	link_len = ft_strlen(ft_itoa(buf.st_nlink));
+	while (link_len++ < pad->link_len)
+		ft_putchar(' ');
 	ft_putnbr(buf.st_nlink);
 	ft_putstr(" ");
-	ft_print_user(node);
+	ft_print_user(node, pad);
 	ft_print_file(node);
 }
 
-void	ft_print_name(t_elem *node, t_flag *flag)
+void	ft_print_name(t_elem *node, t_flag *flag, t_padding *pad)
 {
 	char			*str;
 	struct stat		buf;
@@ -94,7 +102,7 @@ void	ft_print_name(t_elem *node, t_flag *flag)
 	//ft_putstr("str = ");
 	//ft_putendl(str);
 	if (flag->l)
-		ft_print_line(node);
+		ft_print_line(node, pad);
 	else if (lstat(str, &buf) != -1)
 	{
 		if (S_ISDIR(buf.st_mode))
