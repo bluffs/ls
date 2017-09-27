@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/26 14:46:30 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/27 09:55:02 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,23 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 	char			*date;
 	struct stat		buf;
 	int				blocks_len;
+	int				user_len;
+	int				grp_len;
 
 	lstat(ft_dir_name(node, 0), &buf);
 	user = getpwuid(buf.st_uid);
+	user_len = ft_strlen(user->pw_name);
 	ft_putstr(user->pw_name);
+	while (user_len++ < pad->user_len)
+		ft_putchar(' ');
 	ft_putstr("  ");
 	group = getgrgid(buf.st_gid);
+	grp_len = ft_strlen(group->gr_name);
 	ft_putstr(group->gr_name);
+	while (grp_len++ < pad->grp_len)
+		ft_putchar(' ');
 	ft_putstr("  ");
-	blocks_len = ft_strlen(ft_itoa(buf.st_blocks));
+	blocks_len = ft_strlen(ft_itoa(buf.st_size));
 	while (blocks_len++ < pad->blocks_len)
 		ft_putchar(' ');
 	ft_putnbr(buf.st_size);
@@ -83,9 +91,14 @@ void	ft_print_line(t_elem *node, t_padding *pad)
 
 	ft_print_rights(node);
 	lstat(ft_dir_name(node, 0), &buf);
+	//ft_putendl("\ntest0");
 	link_len = ft_strlen(ft_itoa(buf.st_nlink));
+	//ft_putstr("test1 pad->link_len = ");
+	//ft_putnbr(pad->link_len);
+	//ft_putendl("");
 	while (link_len++ < pad->link_len)
 		ft_putchar(' ');
+	//ft_putendl("test2");
 	ft_putnbr(buf.st_nlink);
 	ft_putstr(" ");
 	ft_print_user(node, pad);

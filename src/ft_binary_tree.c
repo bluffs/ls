@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/26 14:33:26 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/27 11:28:31 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	ft_register(t_all **all, char *name, t_flag *flag/*, char *path*/)
 		if (S_ISREG(buf.st_mode))
 		{
 			//ft_putstr("adding ");
-			//ft_putstr(src);
+			//ft_putstr(name);
 			//ft_putendl(" to files");
 			(*all)->file = ft_register_tree((*all)->file, ft_create_node(NULL, name, buf), flag);
 		}

@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/26 14:34:14 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/27 11:18:45 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char				*ft_dir_name(t_elem *dir, char n);
 void				ft_print_name(t_elem *node, t_flag *flag, t_padding *pad);
 void				ft_print_rights(t_elem *node);
 void				ft_get_padding(t_elem *elem, t_padding *pad);
+void				ft_padding_tree(t_elem *begin, t_padding *pad);
 
 /*
 **binary tree functions

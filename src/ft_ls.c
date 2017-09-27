@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/26 14:40:50 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/27 11:58:43 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ void	ft_read_dir_arg(t_elem	*list, t_flag *flag)
 
 int		main(int argc, char **argv)
 {
-	t_all	*all;
-	int		i;
+	t_all		*all;
+	int			i;
+	t_padding	*pad;
 
+	if (!(pad = ft_memalloc(sizeof(t_padding))))
+		ft_error(1, NULL);
 	all = ft_init_all();
 	i = ft_set_flag(all->flag, argc, argv);
 	if (i + 1 >= argc)
@@ -77,7 +80,12 @@ int		main(int argc, char **argv)
 	while (++i < argc)
 		ft_register(&all, argv[i], all->flag);
 	ft_read_trash(all->trash);
-	ft_read_tree(all->file, all->flag, NULL);
+	//ft_putendl("trash done");
+	if (all->flag->l)
+		ft_padding_tree(all->file, pad);
+	//ft_putendl("padding is over");
+	ft_read_tree(all->file, all->flag, pad);
+	//ft_putendl("file done");
 	ft_read_dir_arg(all->dir, all->flag);
 	return (0);
 }
