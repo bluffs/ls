@@ -6,13 +6,13 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/27 09:55:02 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/28 14:19:30 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/ft_ls.h"
 
-void	ft_print_file(t_elem *node)
+void	ft_print_file(t_elem *node, t_flag *flag)
 {
 	char			str[PATH_MAX];
 	int				nb;
@@ -21,13 +21,21 @@ void	ft_print_file(t_elem *node)
 	lstat(ft_dir_name(node, 0), &buf);
 	//ft_putstr("name  = ");
 	//ft_putendl(ft_dir_name(node, 0));
-	if (S_ISDIR(buf.st_mode))
+	if (flag->color)
 	{
-		//ft_putstr("color blue");
-		ft_putstr("\033[1;36m");
+		if (S_ISDIR(buf.st_mode))
+			ft_putstr("\33[1;36m");
+		else if (S_ISLNK(buf.st_mode))
+			ft_putstr("\33[0;35m");
+		else if (S_ISFIFO(buf.st_mode))
+			ft_putstr("\33[0;91m");
+		else if (S_ISCHR(buf.st_mode))
+			ft_putstr("\33[0;34;43m");
+		else if (S_ISSOCK(buf.st_mode))
+			ft_putstr("\33[0;92m");
+		else if (S_ISBLK(buf.st_mode))
+			ft_putstr("\33[0;34;106m");
 	}
-	else if (S_ISLNK(buf.st_mode))
-		ft_putstr("\033[0;35m");
 	ft_putstr(node->name);
 	ft_putstr("\033[0;m");
 	if (S_ISLNK(buf.st_mode))
@@ -84,7 +92,7 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 	ft_putchar(' ');
 }
 
-void	ft_print_line(t_elem *node, t_padding *pad)
+void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
 {
 	struct stat		buf;
 	int				link_len;
@@ -102,7 +110,7 @@ void	ft_print_line(t_elem *node, t_padding *pad)
 	ft_putnbr(buf.st_nlink);
 	ft_putstr(" ");
 	ft_print_user(node, pad);
-	ft_print_file(node);
+	ft_print_file(node, flag);
 }
 
 void	ft_print_name(t_elem *node, t_flag *flag, t_padding *pad)
@@ -115,7 +123,7 @@ void	ft_print_name(t_elem *node, t_flag *flag, t_padding *pad)
 	//ft_putstr("str = ");
 	//ft_putendl(str);
 	if (flag->l)
-		ft_print_line(node, pad);
+		ft_print_line(node, pad, flag);
 	else if (lstat(str, &buf) != -1)
 	{
 		if (S_ISDIR(buf.st_mode))

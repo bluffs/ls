@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/28 11:28:49 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/28 13:10:28 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct		s_flag
 	char			t;
 	char			l;
 	char			first;
+	char			color;
 }					t_flag;
 
 typedef struct		s_all

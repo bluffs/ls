@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 16:53:03 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/27 12:08:53 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/28 13:24:05 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,14 @@ void	ft_print_rights(t_elem *node)
 		ft_putchar('d');
 	else if (S_ISLNK(buf.st_mode))
 		ft_putchar('l');
+	else if (S_ISCHR(buf.st_mode))
+		ft_putchar('c');
+	else if (S_ISBLK(buf.st_mode))
+		ft_putchar('b');
+	else if (S_ISFIFO(buf.st_mode))
+		ft_putchar('p');
+	else if (S_ISSOCK(buf.st_mode))
+		ft_putchar('s');
 	else
 		ft_putchar('-');
 	ft_user_rights(buf);
