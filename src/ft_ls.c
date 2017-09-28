@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/27 11:58:43 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/28 10:31:13 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,14 @@ int		main(int argc, char **argv)
 	i = ft_set_flag(all->flag, argc, argv);
 	if (i + 1 >= argc)
 		ft_register(&all, ".", all->flag);
+	/*ft_putstr("i = ");
+	ft_putnbr(i);
+	ft_putendl("");
+	ft_putstr("argc = ");
+	ft_putnbr(argc);
+	ft_putendl("");*/
+	if (i + 1 >= argc - 1)
+		all->flag->first += 10;
 	while (++i < argc)
 		ft_register(&all, argv[i], all->flag);
 	ft_read_trash(all->trash);
@@ -86,6 +94,11 @@ int		main(int argc, char **argv)
 	//ft_putendl("padding is over");
 	ft_read_tree(all->file, all->flag, pad);
 	//ft_putendl("file done");
+	if (all->trash == NULL && all->file == NULL)
+		all->flag->first += 1;
+	//ft_putstr("flag->first = ");
+	//ft_putnbr(all->flag->first);
+	//ft_putendl("");
 	ft_read_dir_arg(all->dir, all->flag);
 	return (0);
 }

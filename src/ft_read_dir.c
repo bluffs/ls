@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/27 15:43:58 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/28 11:30:22 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,31 @@ void	ft_recursive_dir(t_elem *begin, t_flag *flag)
 ** we have a dir to open and print all elements of it
 */
 
-int		ft_count_blocks(t_elem *elem)
+int		ft_count_blocks(t_elem *elem, int *total)
 {
 	struct stat		buf;
 
-	lstat(ft_dir_name(elem, 0), &buf);
-	return (buf.st_blocks);
+	if (lstat(ft_dir_name(elem, 0), &buf) != -1)
+	{
+		*total += buf.st_blocks;
+		return (1);
+	}
+	return (-1);
+}
+
+void	ft_dir_format(t_flag *flag, char *dir_name)
+{
+	if (flag->first & 1)
+		flag->first -= 1;
+	else
+		ft_putendl("");
+	if (flag->first & 10)
+		flag->first -= 10;
+	else
+	{
+		ft_putstr(dir_name);
+		ft_putendl(":");
+	}
 }
 
 void	ft_open_dir(t_elem *dir, t_flag *flag)
@@ -119,9 +138,7 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 		ft_error(1, NULL);
 	begin = NULL;
 	dir_name = ft_dir_name(dir, 0);
-	ft_putendl("");
-	ft_putstr(dir_name);
-	ft_putendl(":");
+	ft_dir_format(flag, dir_name);
 	if ((dirp = opendir(dir_name)))
 	{
 		while ((dp = readdir(dirp)))
@@ -131,8 +148,16 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 				elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name, buf);
 				if (flag->l)
 				{
-					ft_get_padding(elem, pad);
-					total += ft_count_blocks(elem);
+					//ft_putendl("test1");
+					if (ft_get_padding(elem, pad) == -1)
+						return ;
+					//ft_putendl("test2");
+					if (ft_count_blocks(elem, &total) == -1)
+					{
+						//ft_putendl("-1 has been returned");
+						return ;
+					}
+					//ft_putendl("test2");
 				}
 				begin = ft_register_tree(begin, elem, flag);
 			}

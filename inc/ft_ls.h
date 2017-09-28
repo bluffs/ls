@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/27 11:18:45 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/28 11:28:49 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct		s_flag
 	char			a;
 	char			t;
 	char			l;
+	char			first;
 }					t_flag;
 
 typedef struct		s_all
@@ -78,7 +79,7 @@ char				*ft_strlastchr(char *src, char c);
 char				*ft_dir_name(t_elem *dir, char n);
 void				ft_print_name(t_elem *node, t_flag *flag, t_padding *pad);
 void				ft_print_rights(t_elem *node);
-void				ft_get_padding(t_elem *elem, t_padding *pad);
+int					ft_get_padding(t_elem *elem, t_padding *pad);
 void				ft_padding_tree(t_elem *begin, t_padding *pad);
 
 /*

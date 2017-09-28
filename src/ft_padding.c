@@ -6,13 +6,13 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/25 14:02:38 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/27 11:58:16 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/28 11:29:10 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-void		ft_get_padding(t_elem *elem, t_padding *pad)
+int			ft_get_padding(t_elem *elem, t_padding *pad)
 {
 	// use t_pad to store all ints
 	int				name_len;
@@ -24,7 +24,8 @@ void		ft_get_padding(t_elem *elem, t_padding *pad)
 	struct passwd	*user;
 	struct group	*group;
 
-	lstat(ft_dir_name(elem, 0), &buf);
+	if (lstat(ft_dir_name(elem, 0), &buf) == -1)
+		return (-1);
 	link_len = ft_strlen(ft_itoa(buf.st_nlink));
 	if (link_len > pad->link_len)
 		pad->link_len = link_len;
@@ -39,6 +40,7 @@ void		ft_get_padding(t_elem *elem, t_padding *pad)
 	blocks_len = ft_strlen(ft_itoa(buf.st_size));
 	if (blocks_len > pad->blocks_len)
 		pad->blocks_len = blocks_len;
+	return (1);
 }
 
 void		ft_padding_tree(t_elem *begin, t_padding *pad)
