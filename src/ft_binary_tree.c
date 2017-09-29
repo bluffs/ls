@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/27 11:28:31 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/09/29 11:07:42 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,15 @@ void	ft_register(t_all **all, char *name, t_flag *flag/*, char *path*/)
 	fct = (flag->l) ? lstat : stat;
 	if (fct(name, &buf) != -1)
 	{
-		if (S_ISREG(buf.st_mode))
+		if (S_ISREG(buf.st_mode) || S_ISBLK(buf.st_mode)
+				|| S_ISCHR(buf.st_mode) || S_ISLNK(buf.st_mode))
 		{
 			//ft_putstr("adding ");
 			//ft_putstr(name);
 			//ft_putendl(" to files");
 			(*all)->file = ft_register_tree((*all)->file, ft_create_node(NULL, name, buf), flag);
 		}
-		else if (S_ISDIR(buf.st_mode) || S_ISLNK(buf.st_mode))
+		else if (S_ISDIR(buf.st_mode))
 		{
 			//ft_putstr("adding ");
 			//ft_putstr(src);
