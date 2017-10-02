@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/28 13:10:28 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/02 14:45:21 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <grp.h>
 #include <time.h>
 #include "../libft/libft.h"
+#include <sys/types.h>
 
 /*
 ** binary tree structure

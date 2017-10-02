@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/25 14:02:38 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/28 11:29:10 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/02 14:21:34 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int			ft_get_padding(t_elem *elem, t_padding *pad)
 	grp_len = ft_strlen(group->gr_name);
 	if (grp_len > pad->grp_len)
 		pad->grp_len = grp_len;
-	blocks_len = ft_strlen(ft_itoa(buf.st_size));
+	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
+		blocks_len = 8;
+	else
+		blocks_len = ft_strlen(ft_itoa(buf.st_size));
 	if (blocks_len > pad->blocks_len)
 		pad->blocks_len = blocks_len;
 	return (1);

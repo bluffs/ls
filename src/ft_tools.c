@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/28 14:19:30 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/02 15:19:34 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,61 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 	ft_putendl("");
 }
 
-void	ft_putnstr(char *str, int start)
+void	ft_putnstr(char *str, int start, int year)
 {
 	int		end;
 
-	end = ft_strlen(str) - 9;
+	end = ft_strlen(str) - 9 - 5 * year;
 	while (start < end)
 	{
 		ft_putchar(str[start]);
 		start++;
 	}
+}
+
+void	ft_print_hour(struct stat buf)
+{
+	time_t		now;
+	struct tm	*date;
+	char		*hour;
+
+	now = time(NULL);
+	if (((int)now - (int)buf.st_mtime >= 15770000) || ((int)now - (int)buf.st_mtime <= -3600))
+	{
+		date = gmtime(&buf.st_mtime);
+		hour = ctime(&buf.st_mtime);
+		ft_putnstr(hour, 4, 1);
+		ft_putchar(' ');
+		ft_putnbr(1901 + date->tm_year);
+	}
+	else
+	{
+		hour = ctime(&buf.st_mtime);
+		ft_putnstr(hour, 4, 0);
+	}
+	ft_putchar(' ');
+}
+
+void	ft_print_blocks(struct stat buf, t_padding *pad)
+{
+	char	*min;
+	char	*maj;
+	char	len;
+
+	maj = ft_itoa(major(buf.st_rdev));
+	min = ft_itoa(minor(buf.st_rdev));
+	len = 0;
+	while (pad->blocks_len - len > 9)
+		len++;
+	len = 0;
+	while (ft_strlen(maj) + len++ < 3)
+		ft_putchar(' ');
+	len = 0;
+	ft_putstr(maj);
+	ft_putchar(',');
+	while (ft_strlen(min) + len++ < 4)
+		ft_putchar(' ');
+	ft_putstr(min);
 }
 
 void	ft_print_user(t_elem *node, t_padding *pad)
@@ -82,13 +127,18 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 	while (grp_len++ < pad->grp_len)
 		ft_putchar(' ');
 	ft_putstr("  ");
-	blocks_len = ft_strlen(ft_itoa(buf.st_size));
-	while (blocks_len++ < pad->blocks_len)
-		ft_putchar(' ');
-	ft_putnbr(buf.st_size);
-	ft_putchar(' ');
-	date = ctime(&buf.st_mtime);
-	ft_putnstr(date, 4);
+	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
+		ft_print_blocks(buf, pad);
+	else
+	{
+		blocks_len = ft_strlen(ft_itoa(buf.st_size));
+		while (blocks_len++ < pad->blocks_len)
+			ft_putchar(' ');
+		ft_putnbr(buf.st_size);
+	}
+	//ft_putchar(' ');
+	//date = ctime(&buf.st_mtime);
+	//ft_putnstr(date, 4);
 	ft_putchar(' ');
 }
 
@@ -110,6 +160,7 @@ void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
 	ft_putnbr(buf.st_nlink);
 	ft_putstr(" ");
 	ft_print_user(node, pad);
+	ft_print_hour(buf);
 	ft_print_file(node, flag);
 }
 
