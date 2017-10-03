@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/02 15:19:34 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/03 16:49:42 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 	char			str[PATH_MAX];
 	int				nb;
 	struct stat		buf;
+	char			*name;
 
-	lstat(ft_dir_name(node, 0), &buf);
+	name = ft_dir_name(node, 0);
+	lstat(name, &buf);
 	//ft_putstr("name  = ");
 	//ft_putendl(ft_dir_name(node, 0));
 	if (flag->color)
@@ -40,11 +42,12 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 	ft_putstr("\033[0;m");
 	if (S_ISLNK(buf.st_mode))
 	{
-		nb = readlink(ft_dir_name(node, 0), str, PATH_MAX);
+		nb = readlink(name, str, PATH_MAX);
 		ft_putstr(" -> ");
 		write(1, str, nb);
 	}
 	ft_putendl("");
+	ft_strdel(&name);
 }
 
 void	ft_putnstr(char *str, int start, int year)
@@ -87,7 +90,7 @@ void	ft_print_blocks(struct stat buf, t_padding *pad)
 	char	*min;
 	char	*maj;
 	char	len;
-
+	
 	maj = ft_itoa(major(buf.st_rdev));
 	min = ft_itoa(minor(buf.st_rdev));
 	len = 0;
@@ -102,6 +105,8 @@ void	ft_print_blocks(struct stat buf, t_padding *pad)
 	while (ft_strlen(min) + len++ < 4)
 		ft_putchar(' ');
 	ft_putstr(min);
+	ft_strdel(&maj);
+	ft_strdel(&min);
 }
 
 void	ft_print_user(t_elem *node, t_padding *pad)
@@ -113,8 +118,11 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 	int				blocks_len;
 	int				user_len;
 	int				grp_len;
+	char			*tmp;
 
-	lstat(ft_dir_name(node, 0), &buf);
+	tmp = ft_dir_name(node, 0);
+	lstat(tmp, &buf);
+	ft_strdel(&tmp);
 	user = getpwuid(buf.st_uid);
 	user_len = ft_strlen(user->pw_name);
 	ft_putstr(user->pw_name);
@@ -131,14 +139,13 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 		ft_print_blocks(buf, pad);
 	else
 	{
-		blocks_len = ft_strlen(ft_itoa(buf.st_size));
+		tmp = ft_itoa(buf.st_size);
+		blocks_len = ft_strlen(tmp);
+		ft_strdel(&tmp);
 		while (blocks_len++ < pad->blocks_len)
 			ft_putchar(' ');
 		ft_putnbr(buf.st_size);
 	}
-	//ft_putchar(' ');
-	//date = ctime(&buf.st_mtime);
-	//ft_putnstr(date, 4);
 	ft_putchar(' ');
 }
 
@@ -146,11 +153,16 @@ void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
 {
 	struct stat		buf;
 	int				link_len;
+	char			*tmp;
 
 	ft_print_rights(node);
-	lstat(ft_dir_name(node, 0), &buf);
+	tmp = ft_dir_name(node, 0);
+	lstat(tmp, &buf);
+	ft_strdel(&tmp);
 	//ft_putendl("\ntest0");
-	link_len = ft_strlen(ft_itoa(buf.st_nlink));
+	tmp = ft_itoa(buf.st_nlink);
+	link_len = ft_strlen(tmp);
+	ft_strdel(&tmp);
 	//ft_putstr("test1 pad->link_len = ");
 	//ft_putnbr(pad->link_len);
 	//ft_putendl("");
@@ -186,6 +198,7 @@ void	ft_print_name(t_elem *node, t_flag *flag, t_padding *pad)
 		ft_putendl(node->name);
 		ft_putstr("\033[0;m");
 	}
+	ft_strdel(&str);
 }
 
 void	ft_error(int n, char *str)

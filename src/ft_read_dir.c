@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/28 11:30:22 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/03 17:14:39 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	ft_recursive_dir(t_elem *begin, t_flag *flag)
 	}
 	if (begin->right)
 		ft_recursive_dir(begin->right, flag);
+	ft_strdel(&src);
 }
 
 /*
@@ -87,12 +88,16 @@ void	ft_recursive_dir(t_elem *begin, t_flag *flag)
 int		ft_count_blocks(t_elem *elem, int *total)
 {
 	struct stat		buf;
+	char			*name;
 
+	name = ft_dir_name(elem, 0);
 	if (lstat(ft_dir_name(elem, 0), &buf) != -1)
 	{
+		ft_strdel(&name);
 		*total += buf.st_blocks;
 		return (1);
 	}
+	ft_strdel(&name);
 	return (-1);
 }
 
@@ -122,11 +127,14 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	int				(*fct)(const char *, struct stat *);
 	int				total;
 	t_padding		*pad;
+	char			*name;
 
+	name = ft_dir_name(dir, 0);
 	//ft_putendl("-------oening dir-------");
 	total = 0;
 	fct = (flag->l) ? lstat : stat;
-	fct(ft_dir_name(dir, 0), &buf);
+	fct(name, &buf);
+	ft_strdel(&name);
 	//ft_putstr("name = ");
 	//ft_putendl(ft_dir_name(dir, 0));
 	if (flag->l && !(S_ISDIR(buf.st_mode)))
@@ -145,7 +153,9 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 		{
 			if ((flag->a == 0 && dp->d_name[0] != '.') || flag->a)
 			{
-				elem = ft_create_node(ft_dir_name(dir, 1), dp->d_name, buf);
+				name = ft_dir_name(dir, 1);
+				elem = ft_create_node(name, dp->d_name, buf);
+				ft_strdel(&name);
 				if (flag->l)
 				{
 					//ft_putendl("test1");

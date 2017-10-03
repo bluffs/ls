@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 09:33:33 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/14 10:05:30 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/03 14:53:28 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ t_all	*ft_init_all()
 		ft_error(1, NULL);
 	if (!(flag = ft_memalloc(sizeof(t_flag))))
 		ft_error(1, NULL);
-	if (!(trash = ft_memalloc(sizeof(t_elem))))
+	/*if (!(trash = ft_memalloc(sizeof(t_elem))))
 		ft_error(1, NULL);
 	if (!(file = ft_memalloc(sizeof(t_elem))))
 		ft_error(1, NULL);
 	if (!(dir = ft_memalloc(sizeof(t_elem))))
-		ft_error(1, NULL);
+		ft_error(1, NULL);*/
 	all->flag = flag;
 	//all->trash = trash;
 	//all->file = file;

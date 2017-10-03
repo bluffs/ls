@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 16:53:03 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/28 13:24:05 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/03 16:51:16 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_print_rights(t_elem *node)
 	src = ft_dir_name(node, 0);
 	if ((lstat(src, &buf)) == -1)
 		exit(1);
+	ft_strdel(&src);
 	if (S_ISDIR(buf.st_mode))
 		ft_putchar('d');
 	else if (S_ISLNK(buf.st_mode))

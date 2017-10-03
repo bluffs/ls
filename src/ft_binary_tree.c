@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/09/29 11:07:42 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/03 17:14:19 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_elem	*ft_create_node(char *src, char *name, struct stat stat/*, t_flag *flag*/)
 {
 	t_elem	*node;
+	char	*new_src;
 	/*int				(*fct)(const char *, struct stat *);
 
 	fct = (flag->l) ? lstat : stat;*/
@@ -23,8 +24,8 @@ t_elem	*ft_create_node(char *src, char *name, struct stat stat/*, t_flag *flag*/
 	if (!(node = ft_memalloc(sizeof(t_elem))))
 		ft_error(1, NULL);
 	node->name = ft_strdup(name);
-	//node->dp = dp;
-	node->src = src;
+	if (src)
+		node->src = ft_strdup(src);
 	node->left = NULL;
 	node->right = NULL;
 	node->stat = stat;
@@ -43,7 +44,7 @@ void	ft_read_tree(t_elem *node, t_flag *flag, t_padding *pad)
 			//ft_putstr("name = ");
 			//ft_putendl(node->name);
 			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
-				ft_print_name(node, flag, pad);//ft_putendl(node->name);
+				ft_print_name(node, flag, pad);
 			if (node->right)
 				ft_read_tree(node->right, flag, pad);
 		}
@@ -56,7 +57,7 @@ void	ft_read_tree(t_elem *node, t_flag *flag, t_padding *pad)
 				ft_read_tree(node->right, flag, pad);
 			//if (node->name[0] != '.')
 			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
-				ft_print_name(node, flag, pad);//ft_putendl(node->name);
+				ft_print_name(node, flag, pad);
 			if (node->left)
 				ft_read_tree(node->left, flag, pad);
 		}
