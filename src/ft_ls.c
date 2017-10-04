@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/03 17:17:35 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/04 14:44:58 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ void	ft_read_dir_arg(t_elem	*list, t_flag *flag)
 	if (flag->r == 0)
 	{
 		ft_read_dir_arg(list->left, flag);
+		//ft_putendl("before open dir");
+		//sleep(3);
 		ft_open_dir(list, flag);
+		//ft_putendl("after open dir");
+		//sleep(3);
 		ft_read_dir_arg(list->right, flag);
 	}
 	else
@@ -52,6 +56,8 @@ int		main(int argc, char **argv)
 	ft_read_tree(all->file, all->flag, pad);
 	if (all->trash == NULL && all->file == NULL)
 		all->flag->first += 1;
+	//ft_putendl("before read_dir_arg");
+	//sleep(5);
 	ft_read_dir_arg(all->dir, all->flag);
 	ft_putendl("end");
 	sleep(5);

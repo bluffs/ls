@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/03 17:14:19 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/04 14:59:56 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,17 @@ void	ft_register(t_all **all, char *name, t_flag *flag/*, char *path*/)
 		(*all)->trash = ft_register_tree((*all)->trash, ft_create_node(NULL, name, buf), flag);
 	}
 	//ft_putendl("end registering");
+}
+
+void	ft_del_tree(t_elem *node)
+{
+	if (node->left)
+		ft_del_tree(node->left);
+	if (node->right)
+		ft_del_tree(node->right);
+	if (node->name)
+		ft_strdel(&node->name);
+	if (node->src)
+		ft_strdel(&node->src);
+	ft_memdel((void **)&node);
 }

@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/02 14:45:21 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/04 14:13:47 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void				ft_padding_tree(t_elem *begin, t_padding *pad);
 
 t_elem				*ft_register_tree(t_elem *begin, t_elem *n, t_flag *flag);
 void				ft_read_tree(t_elem *node, t_flag *flag, t_padding *pad);
+void				ft_del_tree(t_elem *node);
 void				ft_read_trash(t_elem *node);
 t_elem				*ft_create_node(char *src, char *name, struct stat stat);
 void				ft_open_dir(t_elem *list, t_flag *flag);

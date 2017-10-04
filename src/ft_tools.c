@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/03 16:49:42 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/04 13:43:47 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 	struct stat		buf;
 	char			*name;
 
+	//ft_putendl("\ntest0");
+	//sleep(3);
 	name = ft_dir_name(node, 0);
 	lstat(name, &buf);
 	//ft_putstr("name  = ");
@@ -48,6 +50,8 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 	}
 	ft_putendl("");
 	ft_strdel(&name);
+	//ft_putendl("test1");
+	//sleep(3);
 }
 
 void	ft_putnstr(char *str, int start, int year)
@@ -155,6 +159,8 @@ void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
 	int				link_len;
 	char			*tmp;
 
+	//ft_putendl("test0.1");
+	//sleep(3);
 	ft_print_rights(node);
 	tmp = ft_dir_name(node, 0);
 	lstat(tmp, &buf);
@@ -171,6 +177,8 @@ void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
 	//ft_putendl("test2");
 	ft_putnbr(buf.st_nlink);
 	ft_putstr(" ");
+	//ft_putendl("test0.2");
+	//sleep(3);
 	ft_print_user(node, pad);
 	ft_print_hour(buf);
 	ft_print_file(node, flag);
