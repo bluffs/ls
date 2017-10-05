@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/04 14:59:56 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/05 15:21:55 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_elem	*ft_create_node(char *src, char *name, struct stat stat/*, t_flag *flag*/
 
 	fct = (flag->l) ? lstat : stat;*/
 
-	//ft_putendl("create node");
 	if (!(node = ft_memalloc(sizeof(t_elem))))
 		ft_error(1, NULL);
 	node->name = ft_strdup(name);
@@ -29,7 +28,6 @@ t_elem	*ft_create_node(char *src, char *name, struct stat stat/*, t_flag *flag*/
 	node->left = NULL;
 	node->right = NULL;
 	node->stat = stat;
-	//ft_putendl("end create node");
 	return (node);
 }
 
@@ -41,8 +39,6 @@ void	ft_read_tree(t_elem *node, t_flag *flag, t_padding *pad)
 		{
 			if (node->left)
 				ft_read_tree(node->left, flag, pad);
-			//ft_putstr("name = ");
-			//ft_putendl(node->name);
 			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
 				ft_print_name(node, flag, pad);
 			if (node->right)
@@ -55,7 +51,6 @@ void	ft_read_tree(t_elem *node, t_flag *flag, t_padding *pad)
 		{
 			if (node->right)
 				ft_read_tree(node->right, flag, pad);
-			//if (node->name[0] != '.')
 			if ((flag->a) || (flag->a == 0 && node->name[0] != '.'))
 				ft_print_name(node, flag, pad);
 			if (node->left)
@@ -80,24 +75,62 @@ void	ft_read_trash(t_elem *node)
 
 t_elem	*ft_register_time(t_elem *begin, t_elem *new, t_flag *flag)
 {
-	t_elem	*tmp;
-	t_elem	*tmp2;
+	t_elem			*tmp;
+	t_elem			*tmp2;
+	struct stat		buf;
+	struct stat		buf2;
+	char			*name;
+	char			*name2;
 
+	name2 = NULL;
+	name = ft_dir_name(new, 0);
+	if (lstat(name, &buf) == -1)
+	{
+		ft_strdel(&name);
+		exit(0);
+	}
 	tmp = begin;
 	while (tmp)
 	{
+		if (name2)
+			ft_strdel(&name2);
+		name2 = ft_dir_name(tmp, 0);
+		if (lstat(name2, &buf2) == -1)
+		{
+			ft_strdel(&name2);
+			exit(0);
+		}
 		tmp2 = tmp;
-		//ft_putstr("time = ");
-		//ft_putnbr(tmp->stat.st_mtime);
-		if (tmp->stat.st_mtime > new->stat.st_mtime)
-			tmp = tmp->right;
+		if (buf2.st_mtime == buf.st_mtime)
+		{
+			if (ft_strcmp(tmp->name, new->name) < 0)
+				tmp = tmp->right;
+			else
+				tmp = tmp->left;
+		}
 		else
-			tmp = tmp->left;
+		{
+			if (buf2.st_mtime > buf.st_mtime)
+				tmp = tmp->right;
+			else
+				tmp = tmp->left;
+		}
 	}
-	if (tmp2->stat.st_mtime > new->stat.st_mtime)
-		tmp2->right = new;
+	if (buf2.st_mtime == buf.st_mtime)
+	{
+		if (ft_strcmp(tmp2->name, new->name) < 0)
+			tmp2->right = new;
+		else
+			tmp2->left = new;
+	}
 	else
-		tmp2->left = new;
+	{
+		if (buf2.st_mtime > buf.st_mtime)
+			tmp2->right = new;
+		else
+			tmp2->left = new;
+	}
+	ft_strdel(&name);
 	return (begin);
 }
 
@@ -123,6 +156,7 @@ t_elem	*ft_register_tree(t_elem *begin, t_elem *new, t_flag *flag)
 		tmp2->right = new;
 	else
 		tmp2->left = new;
+	//ft_putendl("finished registering");
 	return (begin);
 }
 

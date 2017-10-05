@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/25 14:02:38 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/03 16:34:12 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/05 12:07:10 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int			ft_get_padding(t_elem *elem, t_padding *pad)
 
 	tmp = ft_dir_name(elem, 0);
 	if (lstat(tmp, &buf) == -1)
+	{
+		ft_strdel(&tmp);
 		return (-1);
+	}
 	ft_strdel(&tmp);
 	tmp = ft_itoa(buf.st_nlink);
 	link_len = ft_strlen(tmp);

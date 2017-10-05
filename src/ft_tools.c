@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/04 13:43:47 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/05 14:29:08 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 	struct stat		buf;
 	char			*name;
 
-	//ft_putendl("\ntest0");
-	//sleep(3);
 	name = ft_dir_name(node, 0);
 	lstat(name, &buf);
-	//ft_putstr("name  = ");
-	//ft_putendl(ft_dir_name(node, 0));
 	if (flag->color)
 	{
 		if (S_ISDIR(buf.st_mode))
@@ -39,9 +35,11 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 			ft_putstr("\33[0;92m");
 		else if (S_ISBLK(buf.st_mode))
 			ft_putstr("\33[0;34;106m");
+		ft_putstr(node->name);
+		ft_putstr("\033[0;m");
 	}
-	ft_putstr(node->name);
-	ft_putstr("\033[0;m");
+	else
+		ft_putstr(node->name);
 	if (S_ISLNK(buf.st_mode))
 	{
 		nb = readlink(name, str, PATH_MAX);
@@ -50,8 +48,6 @@ void	ft_print_file(t_elem *node, t_flag *flag)
 	}
 	ft_putendl("");
 	ft_strdel(&name);
-	//ft_putendl("test1");
-	//sleep(3);
 }
 
 void	ft_putnstr(char *str, int start, int year)
@@ -197,14 +193,16 @@ void	ft_print_name(t_elem *node, t_flag *flag, t_padding *pad)
 		ft_print_line(node, pad, flag);
 	else if (lstat(str, &buf) != -1)
 	{
-		if (S_ISDIR(buf.st_mode))
+		if (flag->color)
 		{
-			ft_putstr("\033[1;36m");
+			if (S_ISDIR(buf.st_mode))
+				ft_putstr("\033[1;36m");
+			else if (S_ISLNK(buf.st_mode))
+				ft_putstr("\033[0;35m");
+			ft_putendl(node->name);
+			ft_putstr("\033[0;m");
 		}
-		else if (S_ISLNK(buf.st_mode))
-			ft_putstr("\033[0;35m");
 		ft_putendl(node->name);
-		ft_putstr("\033[0;m");
 	}
 	ft_strdel(&str);
 }

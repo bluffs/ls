@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 16:53:03 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/03 16:51:16 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/05 17:26:55 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,15 @@ void	ft_group_rights(struct stat buf)
 	else
 		ft_putchar('-');
 	if (S_IXGRP & buf.st_mode)
-		ft_putchar('x');
+		if (S_ISGID & buf.st_mode)
+			ft_putchar('s');
+		else
+			ft_putchar('x');
 	else
-		ft_putchar('-');
+		if (S_ISGID & buf.st_mode)
+			ft_putchar('S');
+		else
+			ft_putchar('-');
 }
 
 void	ft_user_rights(struct stat buf)
@@ -58,9 +64,19 @@ void	ft_user_rights(struct stat buf)
 	else
 		ft_putchar('-');
 	if (S_IXUSR & buf.st_mode)
-		ft_putchar('x');
+	{
+		if (S_ISUID & buf.st_mode)
+			ft_putchar('s');
+		else
+			ft_putchar('x');
+	}
 	else
-		ft_putchar('-');
+	{
+		if (S_ISUID & buf.st_mode)
+			ft_putchar('S');
+		else
+			ft_putchar('-');
+	}
 }
 
 void	ft_print_rights(t_elem *node)
