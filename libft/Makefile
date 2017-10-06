@@ -11,7 +11,7 @@ SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c \
 	ft_itoa.c ft_putendl.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 	ft_memdup.c ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c \
 	ft_pow.c ft_lstaddlast.c ft_remalloc.c ft_abs.c ft_getnbword.c get_next_line.c \
-	ft_find_pos.c
+	ft_find_pos.c ft_putnstr.c
 OBJ = $(SRC:.c=.o)
 NAME = libft.a
 FLAG = -Wall -Werror -Wextra

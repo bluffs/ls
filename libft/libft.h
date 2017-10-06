@@ -6,7 +6,7 @@
 /*   By: apopinea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:05:46 by apopinea          #+#    #+#             */
-/*   Updated: 2017/06/23 11:41:49 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/06 15:10:07 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstaddlast(t_list **alst, t_list *new);
 void				*ft_remalloc(void **mem, void *mem2);
+void				ft_putnstr(char *str, int n);
 unsigned int		ft_abs(long long nb);
 int					ft_getnbword(char *s);
 int					ft_find_pos(char *str, char c);

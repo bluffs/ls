@@ -6,24 +6,20 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/05 13:51:11 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/06 14:43:27 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-void	ft_read_dir_arg(t_elem	*list, t_flag *flag)
+void	ft_read_dir_arg(t_elem *list, t_flag *flag)
 {
 	if (!list)
 		return ;
 	if (flag->r == 0)
 	{
 		ft_read_dir_arg(list->left, flag);
-		//ft_putendl("before open dir");
-		//sleep(3);
 		ft_open_dir(list, flag);
-		//ft_putendl("after open dir");
-		//sleep(3);
 		ft_read_dir_arg(list->right, flag);
 	}
 	else
@@ -31,6 +27,32 @@ void	ft_read_dir_arg(t_elem	*list, t_flag *flag)
 		ft_read_dir_arg(list->right, flag);
 		ft_open_dir(list, flag);
 		ft_read_dir_arg(list->left, flag);
+	}
+}
+
+void	ft_read_file_arg(t_elem *node, t_flag *flag, t_padding *pad)
+{
+	if (flag->r == 0)
+	{
+		if (node)
+		{
+			if (node->left)
+				ft_read_file_arg(node->left, flag, pad);
+			ft_print_name(node, flag, pad);
+			if (node->right)
+				ft_read_file_arg(node->right, flag, pad);
+		}
+	}
+	else
+	{
+		if (node)
+		{
+			if (node->right)
+				ft_read_file_arg(node->right, flag, pad);
+			ft_print_name(node, flag, pad);
+			if (node->left)
+				ft_read_file_arg(node->left, flag, pad);
+		}
 	}
 }
 
@@ -45,21 +67,17 @@ int		main(int argc, char **argv)
 	all = ft_init_all();
 	i = ft_set_flag(all->flag, argc, argv);
 	if (i + 1 >= argc)
-		ft_register(&all, ".", all->flag);
+		ft_register(&all, ".", all->flag, 0);
 	if (i + 1 >= argc - 1)
-		all->flag->first += 10;
+		all->flag->first += 2;
 	while (++i < argc)
-		ft_register(&all, argv[i], all->flag);
+		ft_register(&all, argv[i], all->flag, 0);
 	ft_read_trash(all->trash);
 	if (all->flag->l)
 		ft_padding_tree(all->file, pad);
-	ft_read_tree(all->file, all->flag, pad);
-	if (all->trash == NULL && all->file == NULL)
+	ft_read_file_arg(all->file, all->flag, pad);
+	if (all->file == NULL)
 		all->flag->first += 1;
-	//ft_putendl("before read_dir_arg");
-	//sleep(5);
 	ft_read_dir_arg(all->dir, all->flag);
-	//ft_putendl("end");
-	//sleep(5);
 	return (0);
 }

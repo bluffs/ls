@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/04 14:13:47 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/06 13:57:34 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 # define __FT_LS_H
 
-#include <unistd.h>
-#include <dirent.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <limits.h>
-#include <errno.h>
-#include <pwd.h>
-#include <grp.h>
-#include <time.h>
-#include "../libft/libft.h"
-#include <sys/types.h>
+# include <unistd.h>
+# include <dirent.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <limits.h>
+# include <errno.h>
+# include <pwd.h>
+# include <grp.h>
+# include <time.h>
+# include "../libft/libft.h"
+# include <sys/types.h>
 
 /*
 ** binary tree structure
@@ -45,11 +45,8 @@ typedef struct		s_elem
 	char			*src;
 	char			*name;
 	struct stat		stat;
-	//struct dirent	*dp;
 	struct s_elem	*left;
 	struct s_elem	*right;
-	//struct s_elem	*file;
-	//struct s_elem	*dir;
 }					t_elem;
 
 typedef struct		s_flag
@@ -83,6 +80,9 @@ void				ft_print_name(t_elem *node, t_flag *flag, t_padding *pad);
 void				ft_print_rights(t_elem *node);
 int					ft_get_padding(t_elem *elem, t_padding *pad);
 void				ft_padding_tree(t_elem *begin, t_padding *pad);
+void				ft_print_blocks(struct stat buf, t_padding *pad);
+void				ft_print_hour(struct stat buf);
+void				ft_print_file(t_elem *node, t_flag *flag);
 
 /*
 **binary tree functions
@@ -94,7 +94,6 @@ void				ft_del_tree(t_elem *node);
 void				ft_read_trash(t_elem *node);
 t_elem				*ft_create_node(char *src, char *name, struct stat stat);
 void				ft_open_dir(t_elem *list, t_flag *flag);
-//void				ft_read_dir(t_elem	*list, t_flag *flag);
-void				ft_register(t_all **all, char *name, t_flag *flag/*, char *path*/);
+void				ft_register(t_all **all, char *name, t_flag *flag, char f);
 
 #endif

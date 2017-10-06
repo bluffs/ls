@@ -6,43 +6,16 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/05 14:41:39 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/06 13:23:40 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-/*void	ft_read_dir(t_elem	*list, t_flag *flag)
-{
-	if (!list)
-		return ;
-	if (flag->r == 0)
-	{
-		ft_read_dir(list->left, flag);
-		ft_putstr(list->src);
-		ft_putstr(list->name);
-		ft_putendl(":");
-		ft_read_dir(list->right, flag);
-	}
-	else
-	{
-		ft_read_dir(list->right, flag);
-		ft_putstr(list->src);
-		ft_putstr(list->name);
-		ft_putendl(":");
-		ft_read_dir(list->left, flag);
-	}
-}*/
-
 char	*ft_dir_name(t_elem *dir, char n)
 {
 	char	*name;
 
-	/*ft_putstr("dir->src = ");
-	ft_putendl(dir->src);
-	ft_putnbr(ft_strlen(dir->src));
-	ft_putstr("dir->name = ");
-	ft_putendl(dir->name);*/
 	if (!(name = ft_memalloc(sizeof(char) *
 					(ft_strlen(dir->src) + ft_strlen(dir->name) + 1 + n))))
 		ft_error(1, NULL);
@@ -67,12 +40,8 @@ void	ft_recursive_dir(t_elem *begin, t_flag *flag)
 			ft_recursive_dir(begin->left, flag);
 		if (fct(src, &buf) != 1)
 		{
-			//ft_putstr("src ");
-			//ft_putendl(src);
 			if (S_ISDIR(buf.st_mode))
 			{
-				//ft_putstr(src);
-				//ft_putendl(" is a dir");
 				if (ft_strcmp(begin->name, ".") && ft_strcmp(begin->name, "..") &&
 						((!flag->a && begin->name[0] != '.') || flag->a))
 					ft_open_dir(begin, flag);
@@ -87,12 +56,8 @@ void	ft_recursive_dir(t_elem *begin, t_flag *flag)
 			ft_recursive_dir(begin->right, flag);
 		if (fct(src, &buf) != 1)
 		{
-			//ft_putstr("src ");
-			//ft_putendl(src);
 			if (S_ISDIR(buf.st_mode))
 			{
-				//ft_putstr(src);
-				//ft_putendl(" is a dir");
 				if (ft_strcmp(begin->name, ".") && ft_strcmp(begin->name, "..") &&
 						((!flag->a && begin->name[0] != '.') || flag->a))
 					ft_open_dir(begin, flag);
@@ -130,8 +95,8 @@ void	ft_dir_format(t_flag *flag, char *dir_name)
 		flag->first -= 1;
 	else
 		ft_putendl("");
-	if (flag->first & 10)
-		flag->first -= 10;
+	if (flag->first & 2)
+		flag->first -= 2;
 	else
 	{
 		ft_putstr(dir_name);
@@ -163,14 +128,10 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	char			*name;
 
 	name = ft_dir_name(dir, 0);
-	//ft_putendl("-------opening dir-------");
-	//sleep(3);
 	total = 0;
 	fct = (flag->l) ? lstat : stat;
 	fct(name, &buf);
 	ft_strdel(&name);
-	//ft_putstr("name = ");
-	//ft_putendl(ft_dir_name(dir, 0));
 	if (flag->l && !(S_ISDIR(buf.st_mode)))
 	{
 		ft_print_name(dir, flag, pad);
@@ -183,66 +144,32 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	begin = NULL;
 	dir_name = ft_dir_name(dir, 0);
 	ft_dir_format(flag, dir_name);
-	//ft_putendl("before while");
-	//sleep(3);
 	name = ft_dir_name(dir, 1);
 	if ((dirp = opendir(dir_name)))
 	{
 		while ((dp = readdir(dirp)))
 		{
-			//ft_putendl("begin while");
-			//ft_putendl(dp->d_name);
-			//sleep(1);
 			if ((flag->a == 0 && dp->d_name[0] != '.') || flag->a)
 			{
-				//ft_putendl("in while if");
-				//sleep(3);
 				elem = ft_create_node(name, dp->d_name, buf);
-				//ft_putstr("name = ");
-				//ft_putendl(name);
-				//ft_strdel(&name);
-				//ft_putendl("in while if 2");
-				//sleep(3);
 				if (flag->l)
 				{
-					//ft_putendl("test1");
-					//ft_putendl("before padding");
-					//sleep(3);
 					if (ft_get_padding(elem, pad) == -1)
 					{
 						ft_free_dir(&name, &dir_name, begin, &pad);
 						ft_del_tree(elem);
-						//ft_strdel(&name);
-						//ft_strdel(&dir_name);
-						/*if (begin)
-							ft_del_tree(begin);
-						if (pad)
-							ft_memdel((void **)&pad);*/
-						//ft_putendl("-1 returned");
-						//sleep(3);
 						return ;
 					}
-					//ft_putendl("after padding");
-					//sleep(3);
-					//ft_putendl("test2");
-					//ft_putendl("before count");
-					//sleep(3);
 					if (ft_count_blocks(elem, &total) == -1)
 					{
-						//ft_putendl("-1 has been returned");
 						ft_free_dir(&name, &dir_name, begin, &pad);
 						ft_del_tree(elem);
 						return ;
 					}
-					//ft_putendl("after count");
-					//sleep(3);
-					//ft_putendl("test2");
 				}
 				begin = ft_register_tree(begin, elem, flag);
 			}
 		}
-		//ft_putendl("test0.11");
-		//sleep(3);
 		if (begin && flag->l)
 		{
 			ft_putstr("total ");
@@ -266,6 +193,4 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 		ft_del_tree(begin);
 	if (pad)
 		ft_memdel((void **)&pad);
-	//ft_putendl("end open dir");
-	//sleep(5);
 }

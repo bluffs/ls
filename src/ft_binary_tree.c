@@ -6,19 +6,16 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/05 15:21:55 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/06 13:30:45 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-t_elem	*ft_create_node(char *src, char *name, struct stat stat/*, t_flag *flag*/)
+t_elem	*ft_create_node(char *src, char *name, struct stat stat)
 {
 	t_elem	*node;
 	char	*new_src;
-	/*int				(*fct)(const char *, struct stat *);
-
-	fct = (flag->l) ? lstat : stat;*/
 
 	if (!(node = ft_memalloc(sizeof(t_elem))))
 		ft_error(1, NULL);
@@ -156,43 +153,37 @@ t_elem	*ft_register_tree(t_elem *begin, t_elem *new, t_flag *flag)
 		tmp2->right = new;
 	else
 		tmp2->left = new;
-	//ft_putendl("finished registering");
 	return (begin);
 }
 
-void	ft_register(t_all **all, char *name, t_flag *flag/*, char *path*/)
+void	ft_register(t_all **all, char *name, t_flag *flag, char fonc)
 {
 	struct stat		buf;
-	//struct stat		buf2;
-	char			src[PATH_MAX];
 	int				(*fct)(const char *, struct stat *);
 
-	fct = (flag->l) ? lstat : stat;
+	fct = (flag->l || fonc) ? lstat : stat;
 	if (fct(name, &buf) != -1)
 	{
 		if (S_ISREG(buf.st_mode) || S_ISBLK(buf.st_mode)
 				|| S_ISCHR(buf.st_mode) || S_ISLNK(buf.st_mode))
-		{
-			//ft_putstr("adding ");
-			//ft_putstr(name);
-			//ft_putendl(" to files");
-			(*all)->file = ft_register_tree((*all)->file, ft_create_node(NULL, name, buf), flag);
-		}
+			(*all)->file = ft_register_tree((*all)->file,
+					ft_create_node(NULL, name, buf), flag);
 		else if (S_ISDIR(buf.st_mode))
-		{
-			//ft_putstr("adding ");
-			//ft_putstr(src);
-			//ft_putendl(" to dir");
-			(*all)->dir = ft_register_tree((*all)->dir, ft_create_node(NULL, name, buf), flag);
-		}
+			(*all)->dir = ft_register_tree((*all)->dir,
+					ft_create_node(NULL, name, buf), flag);
 	}
 	else
 	{
+		if (fct == stat)
+		{
+			ft_register(all, name, flag, 1);
+			return ;
+		}
 		if (!(ft_strcmp(name, "")))
 			ft_error(3, NULL);
-		(*all)->trash = ft_register_tree((*all)->trash, ft_create_node(NULL, name, buf), flag);
+		(*all)->trash = ft_register_tree((*all)->trash,
+				ft_create_node(NULL, name, buf), flag);
 	}
-	//ft_putendl("end registering");
 }
 
 void	ft_del_tree(t_elem *node)

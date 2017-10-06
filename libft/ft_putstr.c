@@ -6,15 +6,15 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 18:03:11 by jyakdi            #+#    #+#             */
-/*   Updated: 2016/11/11 08:49:50 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/06 15:05:42 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
 
 void	ft_putstr(char *str)
 {
 	if (str)
-		while (*str)
-			ft_putchar(*str++);
+		write(1, str, ft_strlen(str));
 }

@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
+/*   ft_tools3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/14 09:33:33 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/06 13:32:12 by jyakdi           ###   ########.fr       */
+/*   Created: 2017/10/06 14:33:12 by jyakdi            #+#    #+#             */
+/*   Updated: 2017/10/06 14:41:29 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-t_all	*ft_init_all(void)
+void	ft_usage(char c)
 {
-	t_all	*all;
-	t_flag	*flag;
+	ft_putstr_fd("ls: illegal option -- ", 2);
+	ft_putchar_fd(c, 2);
+	ft_putendl_fd(
+		"\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]", 2);
+	exit(1);
+}
 
-	if (!(all = ft_memalloc(sizeof(t_all))))
-		ft_error(1, NULL);
-	if (!(flag = ft_memalloc(sizeof(t_flag))))
-		ft_error(1, NULL);
-	all->flag = flag;
-	return (all);
+char	*ft_strlastchr(char *src, char c)
+{
+	int		i;
+
+	i = 0;
+	while (src[i])
+		i++;
+	i--;
+	while (i >= 0)
+	{
+		if (c == src[i])
+			return (&(src[i + 1]));
+		i--;
+	}
+	return (src);
 }
