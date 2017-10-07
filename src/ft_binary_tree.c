@@ -15,7 +15,6 @@
 t_elem	*ft_create_node(char *src, char *name, struct stat stat)
 {
 	t_elem	*node;
-	char	*new_src;
 
 	if (!(node = ft_memalloc(sizeof(t_elem))))
 		ft_error(1, NULL);
@@ -70,7 +69,7 @@ void	ft_read_trash(t_elem *node)
 	}
 }
 
-t_elem	*ft_register_time(t_elem *begin, t_elem *new, t_flag *flag)
+t_elem	*ft_register_time(t_elem *begin, t_elem *new)
 {
 	t_elem			*tmp;
 	t_elem			*tmp2;
@@ -139,7 +138,7 @@ t_elem	*ft_register_tree(t_elem *begin, t_elem *new, t_flag *flag)
 	if (!begin)
 		return (new);
 	if (flag->t)
-		return (ft_register_time(begin, new, flag));
+		return (ft_register_time(begin, new));
 	tmp = begin;
 	while (tmp)
 	{

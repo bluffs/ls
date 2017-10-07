@@ -17,7 +17,7 @@ OBJ = $(SRC:.c=.o)
 LIBFT = libft/libft.a
 CC = gcc
 OPTION = -c -Iinc/
-FLAG =
+FLAG = -Wall -Werror -Wextra
 
 all : $(NAME)
 

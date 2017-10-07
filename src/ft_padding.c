@@ -15,7 +15,7 @@
 int			ft_get_padding(t_elem *elem, t_padding *pad)
 {
 	// use t_pad to store all ints
-	int				name_len;
+	//int				name_len;
 	int				link_len;
 	struct stat		buf;
 	int				user_len;
