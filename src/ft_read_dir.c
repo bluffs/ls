@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:11:15 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/06 13:23:40 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/09 14:35:39 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,17 +130,21 @@ void	ft_open_dir(t_elem *dir, t_flag *flag)
 	name = ft_dir_name(dir, 0);
 	total = 0;
 	fct = (flag->l) ? lstat : stat;
-	fct(name, &buf);
+	if (fct(name, &buf) == -1)
+	{
+		ft_strdel(&name);
+		return ;
+	}
 	ft_strdel(&name);
+	pad = NULL;
+	if (flag->l)
+		if (!(pad = ft_memalloc(sizeof(t_padding))))
+			ft_error(1, NULL);
 	if (flag->l && !(S_ISDIR(buf.st_mode)))
 	{
 		ft_print_name(dir, flag, pad);
 		return ;
 	}
-	pad = NULL;
-	if (flag->l)
-		if (!(pad = ft_memalloc(sizeof(t_padding))))
-			ft_error(1, NULL);
 	begin = NULL;
 	dir_name = ft_dir_name(dir, 0);
 	ft_dir_format(flag, dir_name);

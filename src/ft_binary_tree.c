@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 09:44:52 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/06 13:30:45 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/09 15:24:54 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,122 +66,6 @@ void	ft_read_trash(t_elem *node)
 		ft_putendl_fd(": No such file or directory", 2);
 		if (node->right)
 			ft_read_trash(node->right);
-	}
-}
-
-t_elem	*ft_register_time(t_elem *begin, t_elem *new)
-{
-	t_elem			*tmp;
-	t_elem			*tmp2;
-	struct stat		buf;
-	struct stat		buf2;
-	char			*name;
-	char			*name2;
-
-	name2 = NULL;
-	name = ft_dir_name(new, 0);
-	if (lstat(name, &buf) == -1)
-	{
-		ft_strdel(&name);
-		exit(0);
-	}
-	tmp = begin;
-	while (tmp)
-	{
-		if (name2)
-			ft_strdel(&name2);
-		name2 = ft_dir_name(tmp, 0);
-		if (lstat(name2, &buf2) == -1)
-		{
-			ft_strdel(&name2);
-			exit(0);
-		}
-		tmp2 = tmp;
-		if (buf2.st_mtime == buf.st_mtime)
-		{
-			if (ft_strcmp(tmp->name, new->name) < 0)
-				tmp = tmp->right;
-			else
-				tmp = tmp->left;
-		}
-		else
-		{
-			if (buf2.st_mtime > buf.st_mtime)
-				tmp = tmp->right;
-			else
-				tmp = tmp->left;
-		}
-	}
-	if (buf2.st_mtime == buf.st_mtime)
-	{
-		if (ft_strcmp(tmp2->name, new->name) < 0)
-			tmp2->right = new;
-		else
-			tmp2->left = new;
-	}
-	else
-	{
-		if (buf2.st_mtime > buf.st_mtime)
-			tmp2->right = new;
-		else
-			tmp2->left = new;
-	}
-	ft_strdel(&name);
-	return (begin);
-}
-
-t_elem	*ft_register_tree(t_elem *begin, t_elem *new, t_flag *flag)
-{
-	t_elem	*tmp;
-	t_elem	*tmp2;
-
-	if (!begin)
-		return (new);
-	if (flag->t)
-		return (ft_register_time(begin, new));
-	tmp = begin;
-	while (tmp)
-	{
-		tmp2 = tmp;
-		if (ft_strcmp(tmp->name, new->name) < 0)
-			tmp = tmp->right;
-		else
-			tmp = tmp->left;
-	}
-	if (ft_strcmp(tmp2->name, new->name) < 0)
-		tmp2->right = new;
-	else
-		tmp2->left = new;
-	return (begin);
-}
-
-void	ft_register(t_all **all, char *name, t_flag *flag, char fonc)
-{
-	struct stat		buf;
-	int				(*fct)(const char *, struct stat *);
-
-	fct = (flag->l || fonc) ? lstat : stat;
-	if (fct(name, &buf) != -1)
-	{
-		if (S_ISREG(buf.st_mode) || S_ISBLK(buf.st_mode)
-				|| S_ISCHR(buf.st_mode) || S_ISLNK(buf.st_mode))
-			(*all)->file = ft_register_tree((*all)->file,
-					ft_create_node(NULL, name, buf), flag);
-		else if (S_ISDIR(buf.st_mode))
-			(*all)->dir = ft_register_tree((*all)->dir,
-					ft_create_node(NULL, name, buf), flag);
-	}
-	else
-	{
-		if (fct == stat)
-		{
-			ft_register(all, name, flag, 1);
-			return ;
-		}
-		if (!(ft_strcmp(name, "")))
-			ft_error(3, NULL);
-		(*all)->trash = ft_register_tree((*all)->trash,
-				ft_create_node(NULL, name, buf), flag);
 	}
 }
 

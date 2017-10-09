@@ -6,25 +6,41 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/25 14:02:38 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/05 12:07:10 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/09 14:33:39 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-int			ft_get_padding(t_elem *elem, t_padding *pad)
+void		ft_get_padding2(t_padding *new, t_padding *pad, struct stat buf)
 {
-	// use t_pad to store all ints
-	//int				name_len;
-	int				link_len;
-	struct stat		buf;
-	int				user_len;
-	int				grp_len;
-	int				blocks_len;
 	struct passwd	*user;
 	struct group	*group;
 	char			*tmp;
 
+	tmp = ft_itoa(buf.st_nlink);
+	new->link_len = ft_strlen(tmp);
+	ft_strdel(&tmp);
+	if (new->link_len > pad->link_len)
+		pad->link_len = new->link_len;
+	user = getpwuid(buf.st_uid);
+	new->user_len = ft_strlen(user->pw_name);
+	if (new->user_len > pad->user_len)
+		pad->user_len = new->user_len;
+	group = getgrgid(buf.st_gid);
+	new->grp_len = ft_strlen(group->gr_name);
+	if (new->grp_len > pad->grp_len)
+		pad->grp_len = new->grp_len;
+}
+
+int			ft_get_padding(t_elem *elem, t_padding *pad)
+{
+	struct stat		buf;
+	char			*tmp;
+	t_padding		*new;
+
+	if (!(new = ft_memalloc(sizeof(t_padding))))
+		ft_error(1, NULL);
 	tmp = ft_dir_name(elem, 0);
 	if (lstat(tmp, &buf) == -1)
 	{
@@ -32,29 +48,17 @@ int			ft_get_padding(t_elem *elem, t_padding *pad)
 		return (-1);
 	}
 	ft_strdel(&tmp);
-	tmp = ft_itoa(buf.st_nlink);
-	link_len = ft_strlen(tmp);
-	ft_strdel(&tmp);
-	if (link_len > pad->link_len)
-		pad->link_len = link_len;
-	user = getpwuid(buf.st_uid);
-	user_len = ft_strlen(user->pw_name);
-	if (user_len > pad->user_len)
-		pad->user_len = user_len;
-	group = getgrgid(buf.st_gid);
-	grp_len = ft_strlen(group->gr_name);
-	if (grp_len > pad->grp_len)
-		pad->grp_len = grp_len;
+	ft_get_padding2(new, pad, buf);
 	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
-		blocks_len = 8;
+		new->blocks_len = 8;
 	else
 	{
 		tmp = ft_itoa(buf.st_size);
-		blocks_len = ft_strlen(tmp);
+		new->blocks_len = ft_strlen(tmp);
 		ft_strdel(&tmp);
 	}
-	if (blocks_len > pad->blocks_len)
-		pad->blocks_len = blocks_len;
+	if (new->blocks_len > pad->blocks_len)
+		pad->blocks_len = new->blocks_len;
 	return (1);
 }
 

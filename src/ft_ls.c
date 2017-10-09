@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/06 14:43:27 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/09 17:31:06 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,7 @@ int		main(int argc, char **argv)
 	if (all->file == NULL)
 		all->flag->first += 1;
 	ft_read_dir_arg(all->dir, all->flag);
+	ft_putendl("end");
+	sleep(10);
 	return (0);
 }
