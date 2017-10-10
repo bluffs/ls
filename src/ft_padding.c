@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/25 14:02:38 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/09 14:33:39 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/10 10:41:54 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ void		ft_get_padding2(t_padding *new, t_padding *pad, struct stat buf)
 	new->grp_len = ft_strlen(group->gr_name);
 	if (new->grp_len > pad->grp_len)
 		pad->grp_len = new->grp_len;
+	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
+		new->blocks_len = 8;
+	else
+	{
+		tmp = ft_itoa(buf.st_size);
+		new->blocks_len = ft_strlen(tmp);
+		ft_strdel(&tmp);
+	}
 }
 
 int			ft_get_padding(t_elem *elem, t_padding *pad)
@@ -49,16 +57,9 @@ int			ft_get_padding(t_elem *elem, t_padding *pad)
 	}
 	ft_strdel(&tmp);
 	ft_get_padding2(new, pad, buf);
-	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
-		new->blocks_len = 8;
-	else
-	{
-		tmp = ft_itoa(buf.st_size);
-		new->blocks_len = ft_strlen(tmp);
-		ft_strdel(&tmp);
-	}
 	if (new->blocks_len > pad->blocks_len)
 		pad->blocks_len = new->blocks_len;
+	ft_memdel((void **)&new);
 	return (1);
 }
 

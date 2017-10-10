@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/06 14:34:33 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/10 08:53:12 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 	while (new->grp_len++ < pad->grp_len)
 		ft_putchar(' ');
 	ft_print_user2(buf, pad, new);
+	ft_memdel((void **)&new);
 }
 
 void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
