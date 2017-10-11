@@ -6,16 +6,48 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/25 14:02:38 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 10:41:54 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/11 17:47:46 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-void		ft_get_padding2(t_padding *new, t_padding *pad, struct stat buf)
+void		ft_get_padding_usr(t_padding *new, t_padding *pad, struct stat buf)
 {
 	struct passwd	*user;
+	char			*tmp;
+
+	if ((user = getpwuid(buf.st_uid)))
+		new->user_len = ft_strlen(user->pw_name);
+	else
+	{
+		tmp = ft_itoa(buf.st_uid);
+		new->user_len = ft_strlen(tmp);
+		ft_strdel(&tmp);
+	}
+	if (new->user_len > pad->user_len)
+		pad->user_len = new->user_len;
+}
+
+void		ft_get_padding_grp(t_padding *new, t_padding *pad, struct stat buf)
+{
 	struct group	*group;
+	char			*tmp;
+
+	if ((group = getgrgid(buf.st_gid)))
+		new->grp_len = ft_strlen(group->gr_name);
+	else
+	{
+		tmp = ft_itoa(buf.st_gid);
+		new->grp_len = ft_strlen(tmp);
+		ft_strdel(&tmp);
+	}
+	if (new->grp_len > pad->grp_len)
+		pad->grp_len = new->grp_len;
+}
+
+void		ft_get_padding2(t_padding *new, t_padding *pad, struct stat buf)
+{
 	char			*tmp;
 
 	tmp = ft_itoa(buf.st_nlink);
@@ -23,14 +55,8 @@ void		ft_get_padding2(t_padding *new, t_padding *pad, struct stat buf)
 	ft_strdel(&tmp);
 	if (new->link_len > pad->link_len)
 		pad->link_len = new->link_len;
-	user = getpwuid(buf.st_uid);
-	new->user_len = ft_strlen(user->pw_name);
-	if (new->user_len > pad->user_len)
-		pad->user_len = new->user_len;
-	group = getgrgid(buf.st_gid);
-	new->grp_len = ft_strlen(group->gr_name);
-	if (new->grp_len > pad->grp_len)
-		pad->grp_len = new->grp_len;
+	ft_get_padding_usr(new, pad, buf);
+	ft_get_padding_grp(new, pad, buf);
 	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
 		new->blocks_len = 8;
 	else

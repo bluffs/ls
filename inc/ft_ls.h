@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 12:25:23 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 16:50:35 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/11 17:46:02 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,16 @@ void				ft_free_dir(char **name, char **dir_name,
 									t_elem *begin, t_padding **pad);
 int					ft_count_blocks(t_elem *elem, int *total);
 void				ft_recursive_dir(t_elem *begin, t_flag *flag);
+void				ft_clean(char **name, char **dir_name, t_elem *beg,
+								t_padding *pad);
+void				ft_print_total(t_elem *begin, t_flag *flag, t_padding *pad);
+int					ft_print_extended(t_padding **pad, t_flag *flag,
+										struct stat buf, t_elem *dir);
+void				ft_set_names(char **dir_nam, t_elem *dir, t_flag *flag,
+									char **name);
+int					ft_get_pad_blk(t_flag *flag, t_padding **pad,
+									t_elem **begin, t_elem **dir);
+void				ft_print_line(t_elem *node, t_padding *pad, t_flag *flag);
 
 /*
 **binary tree functions

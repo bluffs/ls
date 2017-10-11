@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 08:53:12 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/11 17:44:54 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,46 @@ void	ft_print_user2(struct stat buf, t_padding *pad, t_padding *new)
 	ft_putchar(' ');
 }
 
-void	ft_print_user(t_elem *node, t_padding *pad)
+void	ft_print_usr(struct stat buf, t_padding *new)
 {
 	struct passwd	*user;
+	char			*tmp;
+
+	if ((user = getpwuid(buf.st_uid)))
+	{
+		new->user_len = ft_strlen(user->pw_name);
+		ft_putstr(user->pw_name);
+	}
+	else
+	{
+		tmp = ft_itoa(buf.st_uid);
+		new->user_len = ft_strlen(tmp);
+		ft_strdel(&tmp);
+		ft_putnbr(buf.st_uid);
+	}
+}
+
+void	ft_print_grp(struct stat buf, t_padding *new)
+{
 	struct group	*group;
+	char			*tmp;
+
+	if ((group = getgrgid(buf.st_gid)))
+	{
+		new->grp_len = ft_strlen(group->gr_name);
+		ft_putstr(group->gr_name);
+	}
+	else
+	{
+		tmp = ft_itoa(buf.st_gid);
+		new->grp_len = ft_strlen(tmp);
+		ft_strdel(&tmp);
+		ft_putnbr(buf.st_gid);
+	}
+}
+
+void	ft_print_user(t_elem *node, t_padding *pad)
+{
 	struct stat		buf;
 	char			*tmp;
 	t_padding		*new;
@@ -45,15 +81,11 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 	if (lstat(tmp, &buf) == -1)
 		exit(1);
 	ft_strdel(&tmp);
-	user = getpwuid(buf.st_uid);
-	new->user_len = ft_strlen(user->pw_name);
-	ft_putstr(user->pw_name);
+	ft_print_usr(buf, new);
 	while (new->user_len++ < pad->user_len)
 		ft_putchar(' ');
 	ft_putstr("  ");
-	group = getgrgid(buf.st_gid);
-	new->grp_len = ft_strlen(group->gr_name);
-	ft_putstr(group->gr_name);
+	ft_print_grp(buf, new);
 	while (new->grp_len++ < pad->grp_len)
 		ft_putchar(' ');
 	ft_print_user2(buf, pad, new);
@@ -80,57 +112,4 @@ void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
 	ft_print_user(node, pad);
 	ft_print_hour(buf);
 	ft_print_file(node, flag);
-}
-
-void	ft_print_name(t_elem *node, t_flag *flag, t_padding *pad)
-{
-	char			*str;
-	struct stat		buf;
-
-	str = ft_dir_name(node, 0);
-	if (flag->l)
-		ft_print_line(node, pad, flag);
-	else if (lstat(str, &buf) != -1)
-	{
-		if (flag->color)
-		{
-			if (S_ISDIR(buf.st_mode))
-				ft_putstr("\033[1;36m");
-			else if (S_ISLNK(buf.st_mode))
-				ft_putstr("\033[0;35m");
-			ft_putendl(node->name);
-			ft_putstr("\033[0;m");
-		}
-		else
-		{
-			ft_putendl(node->name);
-		}
-	}
-	ft_strdel(&str);
-}
-
-void	ft_error(int n, char *str)
-{
-	if (n == 1)
-	{
-		ft_putendl_fd("malloc error", 2);
-		exit(1);
-	}
-	if (n == 2)
-	{
-		ft_putstr_fd("ls: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putendl_fd(": No such file or directory", 2);
-	}
-	if (n == 3)
-	{
-		ft_putendl_fd("ls: fts_open: No such file or directory", 2);
-		exit(1);
-	}
-	if (n == 4)
-	{
-		ft_putstr_fd("ls: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putendl_fd(": Permission denied", 2);
-	}
 }

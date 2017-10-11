@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 11:00:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 11:09:09 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/11 14:54:10 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,11 @@ t_elem	*ft_register_time(t_elem *begin, t_elem *new, char *name, char *name2)
 			ft_strdel(&name2);
 		name2 = ft_dir_name(tmp, 0);
 		if (lstat(name2, &buf2) == -1)
-		{
-			ft_strdel(&name2);
 			exit(1);
-		}
 		tmp2 = tmp;
 		ft_register_time2(&tmp, new, buf, buf2);
 	}
 	ft_register_time3(buf, buf2, &tmp2, new);
+	ft_strdel(&name2);
 	return (begin);
 }
