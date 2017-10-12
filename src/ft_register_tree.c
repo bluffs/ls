@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 15:22:49 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 11:09:35 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/12 11:18:09 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_elem	*ft_register_tree(t_elem *begin, t_elem *new, t_flag *flag)
 void	ft_register2(t_all **all, struct stat buf, char *name, t_flag *flag)
 {
 	if (S_ISREG(buf.st_mode) || S_ISBLK(buf.st_mode)
-			|| S_ISCHR(buf.st_mode) || S_ISLNK(buf.st_mode))
+			|| S_ISCHR(buf.st_mode) || S_ISLNK(buf.st_mode)
+			|| S_ISFIFO(buf.st_mode) || S_ISSOCK(buf.st_mode))
 		(*all)->file = ft_register_tree((*all)->file,
 				ft_create_node(NULL, name, buf), flag);
 	else if (S_ISDIR(buf.st_mode))
