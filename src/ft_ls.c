@@ -6,27 +6,30 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 11:17:28 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 16:51:20 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/13 16:44:18 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ls.h"
 
-void	ft_read_dir_arg(t_elem *list, t_flag *flag)
+void	ft_read_dir_arg(t_elem *list, t_flag *flag, t_padding *pad)
 {
 	if (!list)
 		return ;
 	if (flag->r == 0)
 	{
-		ft_read_dir_arg(list->left, flag);
-		ft_open_dir(list, flag, NULL, NULL);
-		ft_read_dir_arg(list->right, flag);
+		ft_read_dir_arg(list->left, flag, pad);
+		if (flag->d == 0)
+			ft_open_dir(list, flag, NULL, NULL);
+		else
+			ft_print_name(list, flag, pad);
+		ft_read_dir_arg(list->right, flag, pad);
 	}
 	else
 	{
-		ft_read_dir_arg(list->right, flag);
+		ft_read_dir_arg(list->right, flag, pad);
 		ft_open_dir(list, flag, NULL, NULL);
-		ft_read_dir_arg(list->left, flag);
+		ft_read_dir_arg(list->left, flag, pad);
 	}
 }
 
@@ -78,6 +81,6 @@ int		main(int argc, char **argv)
 	ft_read_file_arg(all->file, all->flag, pad);
 	if (all->file == NULL)
 		all->flag->first += 1;
-	ft_read_dir_arg(all->dir, all->flag);
+	ft_read_dir_arg(all->dir, all->flag, pad);
 	return (0);
 }

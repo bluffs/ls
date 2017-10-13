@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:19:10 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 16:49:54 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/13 17:32:46 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,18 @@ void	ft_register_flag(t_flag *flag, char c)
 		flag->a = 1;
 	if (c == 't')
 		flag->t = 1;
-	if (c == 'l')
+	if (c == 'l' || c == 'o' || c == 'g')
 		flag->l = 1;
 	if (c == 'G')
 		flag->color = 1;
+	if (c == '1')
+		flag->l = 0;
+	if (c == 'o')
+		flag->o = 1;
+	if (c == 'd')
+		flag->d = 1;
+	if (c == 'g')
+		flag->g = 1;
 }
 
 void	ft_check_flag(char *str, t_flag *flag)
@@ -34,18 +42,18 @@ void	ft_check_flag(char *str, t_flag *flag)
 	char	*list;
 	int		j;
 
-	list = "ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1";
+	list = "GRadglort1";
 	i = 1;
 	while (str[i])
 	{
 		j = 0;
-		while (j < 38)
+		while (j < 10)
 		{
 			if (str[i] == list[j])
 				break ;
 			j++;
 		}
-		if (j != 38)
+		if (j != 10)
 			ft_register_flag(flag, str[i]);
 		else
 			ft_usage(str[i]);

@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 14:33:12 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/10 11:25:25 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/13 16:51:55 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_usage(char c)
 	ft_putstr_fd("ls: illegal option -- ", 2);
 	ft_putchar_fd(c, 2);
 	ft_putendl_fd(
-		"\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]", 2);
+		"\nusage: ls [-GRadglort] [file ...]", 2);
 	exit(1);
 }
 

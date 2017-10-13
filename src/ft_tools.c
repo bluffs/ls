@@ -6,7 +6,7 @@
 /*   By: jyakdi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 15:15:27 by jyakdi            #+#    #+#             */
-/*   Updated: 2017/10/11 17:44:54 by jyakdi           ###   ########.fr       */
+/*   Updated: 2017/10/13 17:30:23 by jyakdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void	ft_print_user2(struct stat buf, t_padding *pad, t_padding *new)
 	ft_putchar(' ');
 }
 
-void	ft_print_usr(struct stat buf, t_padding *new)
+void	ft_print_usr(struct stat buf, t_padding *new, t_flag *flag)
 {
 	struct passwd	*user;
 	char			*tmp;
 
+	if (flag->g)
+		return ;
 	if ((user = getpwuid(buf.st_uid)))
 	{
 		new->user_len = ft_strlen(user->pw_name);
@@ -50,11 +52,15 @@ void	ft_print_usr(struct stat buf, t_padding *new)
 	}
 }
 
-void	ft_print_grp(struct stat buf, t_padding *new)
+void	ft_print_grp(struct stat buf, t_padding *new, t_flag *flag)
 {
 	struct group	*group;
 	char			*tmp;
 
+	if (flag->o)
+		return ;
+	if (flag->g == 0)
+		ft_putstr("  ");
 	if ((group = getgrgid(buf.st_gid)))
 	{
 		new->grp_len = ft_strlen(group->gr_name);
@@ -69,7 +75,7 @@ void	ft_print_grp(struct stat buf, t_padding *new)
 	}
 }
 
-void	ft_print_user(t_elem *node, t_padding *pad)
+void	ft_print_user(t_elem *node, t_padding *pad, t_flag *flag)
 {
 	struct stat		buf;
 	char			*tmp;
@@ -81,13 +87,14 @@ void	ft_print_user(t_elem *node, t_padding *pad)
 	if (lstat(tmp, &buf) == -1)
 		exit(1);
 	ft_strdel(&tmp);
-	ft_print_usr(buf, new);
-	while (new->user_len++ < pad->user_len)
-		ft_putchar(' ');
-	ft_putstr("  ");
-	ft_print_grp(buf, new);
-	while (new->grp_len++ < pad->grp_len)
-		ft_putchar(' ');
+	ft_print_usr(buf, new, flag);
+	if (flag->g == 0)
+		while (new->user_len++ < pad->user_len)
+			ft_putchar(' ');
+	ft_print_grp(buf, new, flag);
+	if (flag->o == 0)
+		while (new->grp_len++ < pad->grp_len)
+			ft_putchar(' ');
 	ft_print_user2(buf, pad, new);
 	ft_memdel((void **)&new);
 }
@@ -109,7 +116,7 @@ void	ft_print_line(t_elem *node, t_padding *pad, t_flag *flag)
 		ft_putchar(' ');
 	ft_putnbr(buf.st_nlink);
 	ft_putstr(" ");
-	ft_print_user(node, pad);
+	ft_print_user(node, pad, flag);
 	ft_print_hour(buf);
 	ft_print_file(node, flag);
 }
